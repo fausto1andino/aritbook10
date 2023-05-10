@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:math_expressions/math_expressions.dart';
+
+import '../widgets/ThemeSwipper.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -10,7 +9,7 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -45,88 +44,93 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Column(
+          children: [ThemeSwipper()],
+        ));
+  }
+
+  Widget LinearEquations() {
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: TextField(
+          decoration: InputDecoration(
+            labelText: 'Ingrese una ecuación de la forma "y = mx + b"',
+            border: OutlineInputBorder(),
+          ),
+          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.done,
+          onSubmitted: (value) {
+            setState(() {
+              _equation = value.trim();
+              _generateLineData();
+            });
+          },
+        ),
       ),
-      body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        Padding(
+      Expanded(
+        child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: TextField(
-            decoration: InputDecoration(
-              labelText: 'Ingrese una ecuación de la forma "y = mx + b"',
-              border: OutlineInputBorder(),
-            ),
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.done,
-            onSubmitted: (value) {
-              setState(() {
-                _equation = value.trim();
-                _generateLineData();
-              });
-            },
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: LineChart(
-              LineChartData(
-                maxX: 10,
-                minX: -10,
-                maxY: 10,
-                minY: -10,
-                lineTouchData: LineTouchData(enabled: false),
-                gridData: FlGridData(
-                  show: true,
-                  getDrawingHorizontalLine: (value) {
-                    if (value == 0) {
-                      return FlLine(
-                        color: Colors.red,
-                        strokeWidth: 2.0,
-                      );
-                    } else {
-                      return FlLine(
-                        color: Colors.grey,
-                        strokeWidth: 0.5,
-                      );
-                    }
-                  },
-                  getDrawingVerticalLine: (value) {
-                    if (value == 0) {
-                      return FlLine(
-                        color: Colors.red,
-                        strokeWidth: 2.0,
-                      );
-                    } else {
-                      return FlLine(
-                        color: Colors.grey,
-                        strokeWidth: 0.5,
-                      );
-                    }
-                  },
-                ),
-                borderData: FlBorderData(
-                  show: true,
-                  border: const Border(
-                    bottom: BorderSide(color: Colors.grey, width: 0.5),
-                    left: BorderSide(color: Colors.grey, width: 0.5),
-                    right: BorderSide(color: Colors.transparent),
-                    top: BorderSide(color: Colors.transparent),
-                  ),
-                ),
-                lineBarsData: [
-                  LineChartBarData(
-                    spots: _data,
-                    isCurved: false,
-                    color: Colors.blue,
-                    barWidth: 2.0,
-                  ),
-                ],
+          child: LineChart(
+            LineChartData(
+              maxX: 10,
+              minX: -10,
+              maxY: 10,
+              minY: -10,
+              lineTouchData: LineTouchData(enabled: false),
+              gridData: FlGridData(
+                show: true,
+                getDrawingHorizontalLine: (value) {
+                  if (value == 0) {
+                    return FlLine(
+                      color: Colors.blue,
+                      strokeWidth: 2.0,
+                    );
+                  } else {
+                    return FlLine(
+                      color: Colors.grey,
+                      strokeWidth: 0.5,
+                    );
+                  }
+                },
+                getDrawingVerticalLine: (value) {
+                  if (value == 0) {
+                    return FlLine(
+                      color: Colors.blue,
+                      strokeWidth: 2.0,
+                    );
+                  } else {
+                    return FlLine(
+                      color: Colors.grey,
+                      strokeWidth: 0.5,
+                    );
+                  }
+                },
               ),
+              borderData: FlBorderData(
+                show: true,
+                border: const Border(
+                  bottom: BorderSide(color: Colors.grey, width: 0.5),
+                  left: BorderSide(color: Colors.grey, width: 0.5),
+                  right: BorderSide(color: Colors.transparent),
+                  top: BorderSide(color: Colors.transparent),
+                ),
+              ),
+              lineBarsData: [
+                LineChartBarData(
+                  spots: _data,
+                  isCurved: false,
+                  color: Colors.blue,
+                  barWidth: 2.0,
+                ),
+              ],
             ),
           ),
         ),
-      ]),
-    );
+      ),
+    ]);
   }
 }
