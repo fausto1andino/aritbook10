@@ -33,14 +33,14 @@ class _CustomAppBar extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
           color: Colors.black12,
-          child: Text(
+          child: const Text(
             "Definición de Funciones Algebraicas y Diagramas Algebraicas",
-            style: const TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 16),
             textAlign: TextAlign.center,
           ),
         ),
-        background: FadeInImage(
-          placeholder: const AssetImage('assets/loading.gif'),
+        background: const FadeInImage(
+          placeholder: AssetImage('assets/loading.gif'),
           image: NetworkImage(
               "https://4.bp.blogspot.com/-_iS2aIwixHg/WYJ23N3nElI/AAAAAAAABFw/EtIzL5wqd3UFWsPawlCGVpodD-Q1Ol1cACEwYBhgL/s1600/unidad1.png"),
           fit: BoxFit.cover,
@@ -63,11 +63,11 @@ class _PosterAndTitle extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: FadeInImage(
-              placeholder: const AssetImage('assets/no-image.jpg'),
+            child: const FadeInImage(
+              placeholder: AssetImage('assets/no-image.jpg'),
               image: NetworkImage(
                   "https://4.bp.blogspot.com/-_iS2aIwixHg/WYJ23N3nElI/AAAAAAAABFw/EtIzL5wqd3UFWsPawlCGVpodD-Q1Ol1cACEwYBhgL/s1600/unidad1.png"),
-              height: 150,
+              height: 120,
             ),
           ),
           const SizedBox(width: 20),
@@ -76,11 +76,11 @@ class _PosterAndTitle extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Aritmetica 1",
+                Text("UNIDAD 1",
                     style: textTheme.headline5,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2),
-                Text('Puntuacion: ' '',
+                Text('Temas: ' '8',
                     style: textTheme.headline6,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1),
@@ -90,13 +90,16 @@ class _PosterAndTitle extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text('Fecha Premiere: ' '',
+                        child: Text(
+                            'Reconocer funciones de manera algebraica' '',
                             style: textTheme.caption),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child:
-                            Text('Fecha Salida: ' '', style: textTheme.caption),
+                        child: Text(
+                            'Definir de manera grafica con diagramas de Venn'
+                            '',
+                            style: textTheme.caption),
                       )
                     ],
                   ),
@@ -116,9 +119,9 @@ class _Overview extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: Text(
-        "",
+        "Contenido",
         textAlign: TextAlign.justify,
-        style: Theme.of(context).textTheme.subtitle1,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
     );
   }
@@ -132,18 +135,22 @@ class _Actors extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: Text(
-            "Casting",
+            "Leción 1: Fuciones de Primer Grado",
             textAlign: TextAlign.justify,
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          child: Text(
-            "",
-            textAlign: TextAlign.justify,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
+        Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              child: Text(
+                "Lorem",
+                textAlign: TextAlign.justify,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+            ),
+          ],
         ),
       ],
     );
