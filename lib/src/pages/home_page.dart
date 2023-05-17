@@ -1,3 +1,4 @@
+import 'package:aritbook10/src/models/UnitModel/unit_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String? _equation;
   List<FlSpot> _data = [];
+  late List<UnitBook> unitOneBook;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    unitOneBook = [unit1Example(), unit2Example()];
+    super.initState();
+  }
 
   void _generateLineData() {
     if (_equation == null) {
@@ -48,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
         ),
         body: Column(
-          children: [ThemeSwipper()],
+          children: [ThemeSwipper(unitBooks: unitOneBook,)],
         ));
   }
 
@@ -133,5 +142,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     ]);
   }
-
 }

@@ -1,23 +1,35 @@
 import 'package:flutter/material.dart';
 
+import '../models/UnitModel/unit_model.dart';
+
 class ThemeDetailsScreen extends StatelessWidget {
   const ThemeDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final UnitBook unitBook =
+        ModalRoute.of(context)!.settings.arguments as UnitBook;
+
     return Scaffold(
         body: CustomScrollView(
       slivers: [
-        _CustomAppBar(),
+        _CustomAppBar(unitBook),
         SliverList(
-            delegate: SliverChildListDelegate(
-                [_PosterAndTitle(), _Overview(), _Actors()]))
+            delegate: SliverChildListDelegate([
+          _PosterAndTitle(unitBook),
+          _Overview(unitBook),
+          _Actors(unitBook)
+        ]))
       ],
     ));
   }
 }
 
 class _CustomAppBar extends StatelessWidget {
+  final UnitBook unitBook;
+
+  const _CustomAppBar(this.unitBook);
+
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -33,16 +45,15 @@ class _CustomAppBar extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
           color: Colors.black12,
-          child: const Text(
-            "Definición de Funciones Algebraicas y Diagramas Algebraicas",
+          child: Text(
+            unitBook.titleUnitBook,
             style: TextStyle(fontSize: 16),
             textAlign: TextAlign.center,
           ),
         ),
-        background: const FadeInImage(
+        background: FadeInImage(
           placeholder: AssetImage('assets/loading.gif'),
-          image: NetworkImage(
-              "https://4.bp.blogspot.com/-_iS2aIwixHg/WYJ23N3nElI/AAAAAAAABFw/EtIzL5wqd3UFWsPawlCGVpodD-Q1Ol1cACEwYBhgL/s1600/unidad1.png"),
+          image: NetworkImage(unitBook.urlMainImage),
           fit: BoxFit.cover,
         ),
       ),
@@ -51,6 +62,9 @@ class _CustomAppBar extends StatelessWidget {
 }
 
 class _PosterAndTitle extends StatelessWidget {
+  final UnitBook unitBook;
+
+  const _PosterAndTitle(this.unitBook);
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
@@ -61,26 +75,16 @@ class _PosterAndTitle extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: const FadeInImage(
-              placeholder: AssetImage('assets/no-image.jpg'),
-              image: NetworkImage(
-                  "https://4.bp.blogspot.com/-_iS2aIwixHg/WYJ23N3nElI/AAAAAAAABFw/EtIzL5wqd3UFWsPawlCGVpodD-Q1Ol1cACEwYBhgL/s1600/unidad1.png"),
-              height: 120,
-            ),
-          ),
-          const SizedBox(width: 20),
           ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: size.width - 190),
+            constraints: BoxConstraints(maxWidth: size.width - 50),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("UNIDAD 1",
+                Text("",
                     style: textTheme.headline5,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2),
-                Text('Temas: ' '8',
+                Text('Temas: ' '${unitBook.unitSubject.length}',
                     style: textTheme.headline6,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1),
@@ -90,17 +94,9 @@ class _PosterAndTitle extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                            'Reconocer funciones de manera algebraica' '',
+                        child: Text('${unitBook.descriptionUnitBook}' '',
                             style: textTheme.caption),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                            'Definir de manera grafica con diagramas de Venn'
-                            '',
-                            style: textTheme.caption),
-                      )
                     ],
                   ),
                 ),
@@ -114,12 +110,15 @@ class _PosterAndTitle extends StatelessWidget {
 }
 
 class _Overview extends StatelessWidget {
+  final UnitBook unitBook;
+
+  const _Overview(this.unitBook);
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: Text(
-        "Contenido",
+        unitBook.unitSubject.first.topic.first.tittleTopic,
         textAlign: TextAlign.justify,
         style: Theme.of(context).textTheme.titleLarge,
       ),
@@ -128,14 +127,18 @@ class _Overview extends StatelessWidget {
 }
 
 class _Actors extends StatelessWidget {
+  final UnitBook unitBook;
+
+  const _Actors(this.unitBook);
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Column(
       children: [
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: Text(
-            "Leción 1: Fuciones de Primer Grado",
+            unitBook.unitSubject[0].titleSubject,
             textAlign: TextAlign.justify,
             style: Theme.of(context).textTheme.titleMedium,
           ),
@@ -145,12 +148,30 @@ class _Actors extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               child: Text(
-                "Lorem",
+                unitBook.unitSubject[0].descriptionSubject,
                 textAlign: TextAlign.justify,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
           ],
+        ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: FadeInImage(
+            placeholder: AssetImage('assets/images/no-image.jpg'),
+            image: NetworkImage(
+                unitBook.unitSubject.first.topic.first.urlImageTopic),
+            height: size.height * 0.3,
+          ),
+        ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: FadeInImage(
+            placeholder: AssetImage('assets/images/no-image.jpg'),
+            image:
+                NetworkImage(unitBook.unitSubject.first.topic[1].urlImageTopic),
+            height: size.height * 0.3,
+          ),
         ),
       ],
     );
