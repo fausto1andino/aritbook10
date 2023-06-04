@@ -1,11 +1,12 @@
 import 'package:aritbook10/src/common/Themes/data_theme.dart';
 import 'package:aritbook10/src/core/Provider/main_provider.dart';
 import 'package:aritbook10/src/pages/login_page.dart';
+import 'package:aritbook10/src/widgets/TheneDetails/questionswidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'src/pages/home_page.dart';
-import 'src/widgets/themedetails.dart';
+import 'src/pages/themedetails_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,6 +43,7 @@ class _MyAppState extends State<MyApp> {
        routes: {
       
         'detailsTheme': (_) => const ThemeDetailsScreen(),
+        'questionWidget': (_) => const QuestionWidget(),
 
       },
       theme: AppTheme.themeData(false).copyWith(
