@@ -95,24 +95,36 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                                         0.75,
                                     child: straightEquations(0, unitQuestion)),
                               )
-                            : Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.75,
-                                  child: PageView.builder(
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: 4,
-                                      itemBuilder: (context, index) {
-                                        return SingleChildScrollView(
-                                          child: _questionsWidget(
-                                              index, unitQuestion),
-                                        );
-                                      }),
-                                ),
-                              ),
+                            : (_cc == 1)
+                                ? Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.75,
+                                        child: linearEquations2Points(
+                                            1, unitQuestion)))
+                                : Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.75,
+                                      child: PageView.builder(
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemCount: 4,
+                                          itemBuilder: (context, index) {
+                                            return SingleChildScrollView(
+                                              child: _questionsWidget(
+                                                  index, unitQuestion),
+                                            );
+                                          }),
+                                    ),
+                                  ),
                       ],
                     )
                   : Center(child: _bodyEndQuestionQ()),
@@ -122,6 +134,10 @@ class _QuestionWidgetState extends State<QuestionWidget> {
       ),
     );
   }
+
+  ///
+  /// Ejericio de Graficar una Recta en X
+  ///
 
   String _equationX = "";
   String _equationY = "";
@@ -167,23 +183,20 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                       .headlineLarge!
                       .copyWith(color: Colors.black)),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.25,
-                height: MediaQuery.of(context).size.width * 0.25,
-                child: TextField(
-                  decoration: const InputDecoration(
-                    labelText: '',
-                    border: OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.number,
-                  textInputAction: TextInputAction.done,
-                  onChanged: (value) {
-                    _equationX = value.trim();
-                    _textanswerSended3 = _equationX;
-                  },
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.25,
+              height: MediaQuery.of(context).size.width * 0.25,
+              child: TextField(
+                decoration: const InputDecoration(
+                  labelText: '',
+                  border: OutlineInputBorder(),
                 ),
+                keyboardType: TextInputType.number,
+                textInputAction: TextInputAction.done,
+                onChanged: (value) {
+                  _equationX = value.trim();
+                  _textanswerSended3 = _equationX;
+                },
               ),
             ),
             Padding(
@@ -195,23 +208,20 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                       .headlineLarge!
                       .copyWith(color: Colors.black)),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.25,
-                height: MediaQuery.of(context).size.width * 0.25,
-                child: TextField(
-                  decoration: const InputDecoration(
-                    labelText: '',
-                    border: OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.number,
-                  textInputAction: TextInputAction.done,
-                  onChanged: (value) {
-                    _equationY = value.trim();
-                    _textanswerSended4 = _equationY;
-                  },
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.25,
+              height: MediaQuery.of(context).size.width * 0.25,
+              child: TextField(
+                decoration: const InputDecoration(
+                  labelText: '',
+                  border: OutlineInputBorder(),
                 ),
+                keyboardType: TextInputType.number,
+                textInputAction: TextInputAction.done,
+                onChanged: (value) {
+                  _equationY = value.trim();
+                  _textanswerSended4 = _equationY;
+                },
               ),
             ),
             Padding(
@@ -228,7 +238,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
       ),
       Padding(
         padding:
-            EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.17),
+            EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.15),
         child: Row(
           children: [
             Column(
@@ -246,7 +256,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                         });
                       },
                     ),
-                    Text('Abierto',
+                    Text(' ( - X ) Abierto',
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall!
@@ -266,7 +276,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                         });
                       },
                     ),
-                    Text('Cerrado',
+                    Text(' ( - X ) Cerrado',
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall!
@@ -290,12 +300,11 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                         });
                       },
                     ),
-                    Container(
-                        child: Text('Abierto',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(color: Colors.black))),
+                    Text(' ( + X ) Abierto',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(color: Colors.black)),
                   ],
                 ),
                 Row(
@@ -311,7 +320,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                         });
                       },
                     ),
-                    Text('Cerrado',
+                    Text(' ( + X ) Cerrado',
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall!
@@ -340,40 +349,79 @@ class _QuestionWidgetState extends State<QuestionWidget> {
               minX: -10,
               maxY: 10,
               minY: -10,
-              lineTouchData: LineTouchData(enabled: false),
+              lineTouchData: LineTouchData(
+                enabled: false,
+              ),
               gridData: FlGridData(
                 show: true,
+                getDrawingHorizontalLine: (value) {
+                  if (value == 0) {
+                    return FlLine(
+                      color: Colors.blue,
+                      strokeWidth: 2.0,
+                    );
+                  } else {
+                    return FlLine(
+                      color: Colors.grey,
+                      strokeWidth: 0.5,
+                    );
+                  }
+                },
+                getDrawingVerticalLine: (value) {
+                  if (value == 0) {
+                    return FlLine(
+                      color: Colors.blue,
+                      strokeWidth: 2.0,
+                    );
+                  } else {
+                    return FlLine(
+                      color: Colors.grey,
+                      strokeWidth: 0.5,
+                    );
+                  }
+                },
               ),
               borderData: FlBorderData(
                 show: true,
                 border: const Border(
                   bottom: BorderSide(color: Colors.grey, width: 0.5),
                   left: BorderSide(color: Colors.grey, width: 0.5),
-                  right: BorderSide(color: Colors.transparent),
-                  top: BorderSide(color: Colors.transparent),
+                  right: BorderSide(color: Colors.grey, width: 0.5),
+                  top: BorderSide(color: Colors.grey, width: 0.5),
                 ),
               ),
               lineBarsData: [
                 LineChartBarData(
                   spots: _data,
                   isCurved: false,
-                  color: Colors.blue,
+                  color: Colors.red,
                   barWidth: 2.0,
                   dotData: FlDotData(
                     show: true,
                     getDotPainter: (spot, percent, barData, index) {
-                      if (_textanswerSended2 == "openAngle" ||
-                          _textanswerSended3 == "closedAngle") {
+                      if (_textanswerSended1 == "openAngle" &&
+                          _textanswerSended2 == "openAngle") {
                         return FlDotCirclePainter(
-                            radius: 2.0,
-                            strokeWidth: 2.0,
-                            strokeColor: Colors.blue,
-                            color: Colors.white);
+                          radius: 2.0,
+                          strokeWidth: 2.0,
+                          strokeColor: Colors.red,
+                          color: Colors.white,
+                        );
                       } else {
                         return FlDotCirclePainter(
                           radius: 2.0,
                           strokeWidth: 2.0,
-                          strokeColor: Colors.blue,
+                          strokeColor: Colors.red,
+                          color: _textanswerSended1 == "closedAngle" &&
+                                  _textanswerSended2 == "closedAngle"
+                              ? Colors.red
+                              : index == 1 &&
+                                      _textanswerSended1 == "closedAngle"
+                                  ? Colors.white
+                                  : index == 0 &&
+                                          _textanswerSended2 == "closedAngle"
+                                      ? Colors.white
+                                      : Colors.red,
                         );
                       }
                     },
@@ -398,6 +446,289 @@ class _QuestionWidgetState extends State<QuestionWidget> {
               child: const Text("Responder"))),
     ]);
   }
+
+  ///
+  /// Ejericio de Graficar una Recta con 2 Puntos
+  ///
+
+  String _equation2P1X = "";
+  String _equation2P1Y = "";
+  String _equation2P2X = "";
+  String _equation2P2Y = "";
+
+  List<FlSpot> _data2P = [];
+
+  void _generateLine2PointsData() {
+    _isGraphed = true;
+    if (_equation2P1X.isEmpty ||
+        _equation2P1Y.isEmpty ||
+        _equation2P2X.isEmpty ||
+        _equation2P2Y.isEmpty) {
+      return;
+    }
+
+    final double x1 = double.parse(_equation2P1X);
+    final double y1 = double.parse(_equation2P1Y);
+    final double x2 = double.parse(_equation2P2X);
+    final double y2 = double.parse(_equation2P2Y);
+
+    final List<FlSpot> data = [
+      FlSpot(x1, y1),
+      FlSpot(x2, y2),
+    ];
+
+    setState(() {
+      _data2P = data;
+    });
+  }
+
+  Widget linearEquations2Points(int index, List<UnitQuestion> questions) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: viewNumberOfQuetion(questions[_cc].titleQuestion),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            left: MediaQuery.of(context).size.width * 0.1,
+          ),
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.width * 0.1),
+                child: Text("( ",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineLarge!
+                        .copyWith(color: Colors.black)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  height: MediaQuery.of(context).size.width * 0.25,
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      labelText: 'Punto 1 X',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.done,
+                    onChanged: (value) {
+                      setState(() {
+                        _equation2P1X = value.trim();
+                        _textanswerSended1 = _equation2P1X;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.width * 0.1),
+                child: Text(" , ",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineLarge!
+                        .copyWith(color: Colors.black)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  height: MediaQuery.of(context).size.width * 0.25,
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      labelText: 'Punto 1 Y',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.done,
+                    onChanged: (value) {
+                      setState(() {
+                        _equation2P1Y = value.trim();
+                        _textanswerSended2 = _equation2P1Y;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.width * 0.1),
+                child: Text(" )",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineLarge!
+                        .copyWith(color: Colors.black)),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            left: MediaQuery.of(context).size.width * 0.1,
+          ),
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.width * 0.1),
+                child: Text("( ",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineLarge!
+                        .copyWith(color: Colors.black)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  height: MediaQuery.of(context).size.width * 0.25,
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      labelText: 'Punto 2 X',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.done,
+                    onChanged: (value) {
+                      setState(() {
+                        _equation2P2X = value.trim();
+                        _textanswerSended3 = _equation2P2X;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.width * 0.1),
+                child: Text(" , ",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineLarge!
+                        .copyWith(color: Colors.black)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  height: MediaQuery.of(context).size.width * 0.25,
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      labelText: 'Punto 2 Y',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.done,
+                    onChanged: (value) {
+                      setState(() {
+                        _equation2P2Y = value.trim();
+                        _textanswerSended4 = _equation2P2Y;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.width * 0.1),
+                child: Text(" )",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineLarge!
+                        .copyWith(color: Colors.black)),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+            height: MediaQuery.of(context).size.width * 0.1,
+            width: MediaQuery.of(context).size.width * 0.1,
+            child: OutlinedButton(
+                onPressed: () {
+                  _generateLine2PointsData();
+                },
+                child: const Text("Graficar"))),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: LineChart(
+              LineChartData(
+                lineTouchData: LineTouchData(enabled: false),
+                gridData: FlGridData(
+                  show: true,
+                  getDrawingHorizontalLine: (value) {
+                    if (value == 0) {
+                      return FlLine(
+                        color: Colors.blue,
+                        strokeWidth: 2.0,
+                      );
+                    } else {
+                      return FlLine(
+                        color: Colors.grey,
+                        strokeWidth: 0.5,
+                      );
+                    }
+                  },
+                  getDrawingVerticalLine: (value) {
+                    if (value == 0) {
+                      return FlLine(
+                        color: Colors.blue,
+                        strokeWidth: 2.0,
+                      );
+                    } else {
+                      return FlLine(
+                        color: Colors.grey,
+                        strokeWidth: 0.5,
+                      );
+                    }
+                  },
+                ),
+                borderData: FlBorderData(
+                  show: true,
+                  border: const Border(
+                    bottom: BorderSide(color: Colors.grey, width: 0.5),
+                    left: BorderSide(color: Colors.grey, width: 0.5),
+                    right: BorderSide(color: Colors.transparent),
+                    top: BorderSide(color: Colors.transparent),
+                  ),
+                ),
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: _data2P,
+                    isCurved: false,
+                    color: Colors.blue,
+                    barWidth: 2.0,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+            height: MediaQuery.of(context).size.width * 0.1,
+            width: MediaQuery.of(context).size.width * 0.1,
+            child: OutlinedButton(
+                onPressed: () {
+                  if (_isGraphed) {
+                    sendStraightEquationAnswer(questions, index);
+                  } else {
+                    showSnackbarWithMessage(context, "Grafique su respuesta");
+                  }
+                },
+                child: const Text("Responder"))),
+      ],
+    );
+  }
+
+  ///
+  /// Trivia
+  ///
 
   _questionsWidget(int index, List<UnitQuestion> questions) {
     return Column(children: [
@@ -485,7 +816,9 @@ class _QuestionWidgetState extends State<QuestionWidget> {
   void restartQuestion(List<UnitQuestion> data) {
     _cc = _cc + 1;
     _manyOption = 3;
+
     score = 0;
+
     _answerSended1 = false;
     _answerSended2 = false;
     _answerSended3 = false;
@@ -493,12 +826,19 @@ class _QuestionWidgetState extends State<QuestionWidget> {
 
     _equationX = "";
     _equationY = "";
+
+    _equation2P1X = "";
+    _equation2P2X = "";
+    _equation2P1Y = "";
+    _equation2P2Y = "";
+
     _data = [];
+    _data2P = [];
     _isGraphed = false;
     _counter = 31;
 
     if (data.length > _cc) {
-      Timer(const Duration(milliseconds: 10), () {
+      Timer(const Duration(milliseconds: 31), () {
         if (mounted) {
           _controller.restart(duration: _counter);
         }
@@ -539,7 +879,6 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                         : _answerSended4 = true;
         log("Se pulsado el boton $index");
         setState(() {
-          _cc = _cc + 1;
           restartQuestion(data);
         });
 

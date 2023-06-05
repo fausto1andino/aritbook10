@@ -40,21 +40,16 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'AritBook10',
-       routes: {
-      
+      routes: {
         'detailsTheme': (_) => const ThemeDetailsScreen(),
         'questionWidget': (_) => const QuestionWidget(),
-
       },
       theme: AppTheme.themeData(false).copyWith(
           pageTransitionsTheme: const PageTransitionsTheme(
         builders: <TargetPlatform, PageTransitionsBuilder>{
           TargetPlatform.android: ZoomPageTransitionsBuilder(),
         },
-        
-      )
-      
-      ),
+      )),
       home: FutureBuilder(
           future: mainProviderSave.getPreferencesToken(),
           builder: (context, snapshot) {
@@ -71,7 +66,7 @@ class _MyAppState extends State<MyApp> {
             }
 
             return (snapshot.data != "")
-                ? const MyHomePage(title: 'Ejericio 1')
+                ? const MyHomePage(title: 'AritBook10')
                 : const LoginPage();
           }),
     );

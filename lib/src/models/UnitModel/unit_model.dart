@@ -62,18 +62,14 @@ UnitBook unit1Example() {
   List<Option> optionUnitOneQuestions1 = [
     Option(idOption: 1, answerOption: "openAngle", isTheCorrectOption: true),
     Option(idOption: 2, answerOption: "closedAngle", isTheCorrectOption: true),
-    Option(idOption: 3, answerOption: "-2", isTheCorrectOption: true),
-    Option(idOption: 4, answerOption: "6", isTheCorrectOption: true),
+    Option(idOption: 3, answerOption: "3", isTheCorrectOption: true),
+    Option(idOption: 4, answerOption: "7", isTheCorrectOption: true),
   ];
   List<Option> optionUnitOneQuestions2 = [
-    Option(
-        idOption: 1, answerOption: "..Respuesta 1", isTheCorrectOption: true),
-    Option(
-        idOption: 2, answerOption: "..Respuesta 2", isTheCorrectOption: false),
-    Option(
-        idOption: 3, answerOption: "..Respuesta 3", isTheCorrectOption: false),
-    Option(
-        idOption: 4, answerOption: "..Respuesta 4", isTheCorrectOption: false),
+    Option(idOption: 1, answerOption: "3", isTheCorrectOption: true),
+    Option(idOption: 2, answerOption: "2", isTheCorrectOption: true),
+    Option(idOption: 3, answerOption: "5", isTheCorrectOption: true),
+    Option(idOption: 4, answerOption: "4", isTheCorrectOption: true),
   ];
   List<Option> optionUnitOneQuestions3 = [
     Option(
@@ -106,12 +102,12 @@ UnitBook unit1Example() {
     UnitQuestion(
         idQuestion: 1,
         titleQuestion:
-            "¿El par ordenado -2,6 en el cual -2 se encuenta abierto y el otro es 6 el cual esta cerrado? \n Grafique la recta",
+            "¿El par ordenado 3,7 en el cual 3 se encuenta abierto y el otro es 7 el cual esta cerrado? \n Coloque el punto y Grafique la recta",
         option: optionUnitOneQuestions1),
     UnitQuestion(
         idQuestion: 2,
         titleQuestion:
-            "Si tengo 5 niños dentro del conjunto A y tengo 5 niñas dentro del conjunto B. \n ¿El siguiente diagrama representa la definición de función o relación?",
+            " En este mapa es necesario graficar una linea en el punto inicial (3, 2) y a su destino es el (5, 3) \n Coloque los puntos y Grafique la recta",
         option: optionUnitOneQuestions2),
     UnitQuestion(
         idQuestion: 3,

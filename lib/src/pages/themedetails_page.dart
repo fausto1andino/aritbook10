@@ -35,6 +35,7 @@ class ThemeDetailsScreenState extends State<ThemeDetailsScreen> {
 
     for (var element in unitBook.unitSubject) {
       panelControllerList.add(PanelController());
+      log(element.toString());
     }
     log(panelControllerList.length.toString());
     return Scaffold(
@@ -62,7 +63,8 @@ class ThemeDetailsScreenState extends State<ThemeDetailsScreen> {
                 childCount: unitBook.unitSubject.length,
               ),
             ),
-            SliverToBoxAdapter(child: QuestionPage(questions: unitBook.unitQuestion)),
+            SliverToBoxAdapter(
+                child: QuestionPage(questions: unitBook.unitQuestion)),
           ],
         ),
       ],
