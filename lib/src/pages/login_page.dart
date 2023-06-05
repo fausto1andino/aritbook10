@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:ftoast/ftoast.dart';
 import 'package:provider/provider.dart';
+import 'package:sign_in_button/sign_in_button.dart';
+import 'dart:developer' as dev;
 
 import '../bloc/login_bloc.dart';
 import '../core/Provider/main_provider.dart';
+import '../services/auth.services.dart';
+import '../widgets/toast.widget.dart';
 import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -18,6 +23,8 @@ final TextEditingController _passwordController = TextEditingController();
 class _LoginPageState extends State<LoginPage> {
   //controlador de las validaciones
   late LoginBloc bloc;
+  Toasty toast = Toasty();
+  bool buttonGoogle = true;
 
   //controlador para ocultar la contraseña
   bool _obscureText = true;
@@ -95,6 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                                           hintText: 'nombre del estudiante',
                                           labelText: 'Nombre de Usuario')),
                                 ),
+
                                 StreamBuilder(
                                     //controlador de contraseña
                                     stream: bloc.passwordStream,
@@ -137,6 +145,27 @@ class _LoginPageState extends State<LoginPage> {
                                                 labelText: 'Contraseña',
                                               )),
                                         )),
+
+                                SizedBox(
+                                  width: size.width * 0.7,
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: SignInButton(
+                                      Buttons.google,
+                                      elevation: 4.0,
+                                      text: 'Iniciar con Google',
+                                      onPressed: () async {
+                                        if (buttonGoogle) {
+                                          buttonGoogle = false;
+                                          dev.log("Iniciar sesión");
+                                          var result = googleSignIn(context);
+                                          buttonGoogle = true;
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                //const SizedBox(height: 20),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -198,6 +227,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   onClickLogin() {
+    dev.log('Login');
     // Store user logged in
     final mainProvider = Provider.of<MainProvider>(context, listen: false);
 
@@ -225,5 +255,19 @@ class _LoginPageState extends State<LoginPage> {
           },
         ),
         (route) => false);
+  }
+
+  googleSignIn(context) async {
+    AuthServices auth = AuthServices();
+    bool success = await auth.loginWithGoogle(context).then((value) {
+      dev.log(value.toString());
+      dev.log("Valor de toast");
+      return value;
+    });
+
+    await context;
+    success
+        ? toast.ToastCorrect('Inicio de sesión exitoso')
+        : toast.ToastError("No se pudo iniciar sesión");
   }
 }
