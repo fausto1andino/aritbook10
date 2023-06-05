@@ -1,6 +1,7 @@
 import 'package:aritbook10/src/models/UnitModel/unit_model.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:developer' as dev;
+import '../services/auth.services.dart';
 import '../widgets/ThemeSwipper.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -34,8 +35,29 @@ class _MyHomePageState extends State<MyHomePage> {
               ThemeSwipper(
                 unitBooks: unitOneBook,
               ),
+              Stack(
+                children: [
+                  Container(
+                    height: 200,
+                    width: 200,
+                    child: IconButton(
+                      tooltip: "Cerrar sesión",
+                      onPressed: () {
+                        logOut();
+                      },
+                      icon: Icon(Icons.logout_outlined),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ));
+  }
+
+  logOut() {
+    AuthServices authServices = AuthServices();
+    dev.log("LOGOUT");
+    authServices.signOut(context);
   }
 }

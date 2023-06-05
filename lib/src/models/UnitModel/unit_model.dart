@@ -206,7 +206,6 @@ UnitBook unit1Example() {
             "https://res.cloudinary.com/dsuh0d4g5/image/upload/v1684299777/DocIDImage/example1IMG1_rgcrno.png",
         urlVideoTopic: ""),
   ];
-
   List<UnitSubject> unitSubject1 = [
     UnitSubject(
         idSubject: 1,

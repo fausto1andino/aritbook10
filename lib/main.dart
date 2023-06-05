@@ -7,9 +7,14 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'src/pages/home_page.dart';
 import 'src/pages/themedetails_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (value) {
       runApp(
