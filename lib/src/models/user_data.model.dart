@@ -5,13 +5,12 @@ class UserData {
   String? name;
   String? email;
   Timestamp? creationTime;
-  String? phonePrefix;
-  String? phoneNumber;
+
   String? photoURL;
   bool? verification;
 
-  UserData(this.id, this.name, this.email, this.creationTime, this.phonePrefix,
-      this.phoneNumber, this.photoURL, this.verification);
+  UserData(this.id, this.name, this.email, this.creationTime, this.photoURL,
+      this.verification);
 
   factory UserData.fromDocument(DocumentSnapshot doc) {
     return UserData(
@@ -19,8 +18,6 @@ class UserData {
       doc['name'],
       doc['email'],
       doc['creationTime'],
-      doc['phonePrefix'],
-      doc['phoneNumber'],
       doc['photoURL'],
       doc['verification'],
     );
@@ -36,8 +33,6 @@ class UserData {
         data?['name'] ?? '',
         data?['email'] ?? '',
         data?['creationTime'] ?? '',
-        data?['phonePrefix'] ?? '',
-        data?['phoneNumber'] ?? '',
         data?['photoURL'] ?? '',
         data?['verification'] ?? '');
   }
@@ -48,8 +43,6 @@ class UserData {
       'name': name ?? '',
       'email': email ?? '',
       'creationTime': creationTime ?? '',
-      'phonePrefix': phonePrefix ?? '',
-      'phoneNumber': phoneNumber ?? '',
       'photoURL': photoURL ?? '',
       'verification': verification ?? '',
     };

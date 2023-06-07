@@ -271,13 +271,13 @@ class _LoginPageState extends State<LoginPage> {
         .then((value) {
       dev.log(value.toString());
       value
-          ? toast.ToastCorrect('Inicio de sesión exitoso')
+          ? toast.ToastCorrect('Bienvenido')
           : toast.ToastError("Revisa tu correo y contraseña");
       dev.log("Valor de toast");
       return value;
     });
     success
-        ? toast.ToastCorrect('Inicio de sesión exitoso')
+        ? toast.ToastCorrect('Bienvenido')
         : toast.ToastError("Revisa tu correo y contraseña");
   }
 
@@ -288,10 +288,8 @@ class _LoginPageState extends State<LoginPage> {
       dev.log("Valor de toast");
       return value;
     });
-
-    await context;
     success
-        ? toast.ToastCorrect('Inicio de sesión exitoso')
+        ? toast.ToastCorrect('Bienvenido')
         : toast.ToastError("No se pudo iniciar sesión");
   }
 }

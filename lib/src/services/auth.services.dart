@@ -53,7 +53,7 @@ class AuthServices {
           email: email, password: password);
       dev.log(credential.toString());
       UserData user = UserData(credential.user!.uid, name, email,
-          Timestamp.now(), phonePrefix, phoneNumber, photoURL, false);
+          Timestamp.now(), phonePrefix, false);
       userServices.createUser(user);
     } catch (e) {
       dev.log(e.toString());
@@ -68,7 +68,7 @@ class AuthServices {
       var credential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       dev.log(credential.toString());
-      
+
       mainProvider.updateToken(credential.user!.uid);
 
       Navigator.of(context).pushAndRemoveUntil(
@@ -143,6 +143,7 @@ class AuthServices {
             },
           ),
           (route) => false);
+      return true;
     } catch (e) {
       dev.log(e.toString());
       if (e.toString().contains("sign_in_failed")) {
@@ -186,8 +187,6 @@ class AuthServices {
               userCredential.user!.displayName.toString(),
               userCredential.user!.email.toString(),
               Timestamp.now(),
-              userCredential.user!.phoneNumber.toString(),
-              userCredential.user!.phoneNumber.toString(),
               userCredential.user!.photoURL.toString(),
               userCredential.user!.emailVerified);
           dev.log(user.email.toString());
