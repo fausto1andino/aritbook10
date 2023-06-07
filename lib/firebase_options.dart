@@ -70,7 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '385796186485',
     projectId: 'matbook-93511',
     storageBucket: 'matbook-93511.appspot.com',
-    iosClientId: '385796186485-krclp969npc0dpq5h1gafu6n9h02959d.apps.googleusercontent.com',
+    iosClientId:
+        '385796186485-krclp969npc0dpq5h1gafu6n9h02959d.apps.googleusercontent.com',
     iosBundleId: 'com.example.aritbook10',
   );
 }

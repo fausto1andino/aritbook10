@@ -1,13 +1,13 @@
 class Topic {
   int idTopic;
-  String tittleTopic;
+  String titleTopic;
   String topicDescription;
   String urlImageTopic;
   String urlVideoTopic;
 
   Topic({
     required this.idTopic,
-    required this.tittleTopic,
+    required this.titleTopic,
     required this.topicDescription,
     required this.urlImageTopic,
     required this.urlVideoTopic,
@@ -15,7 +15,7 @@ class Topic {
 
   factory Topic.fromJson(Map<String, dynamic> json) => Topic(
         idTopic: json["idTopic"],
-        tittleTopic: json["tittleTopic"],
+        titleTopic: json["titleTopic"],
         topicDescription: json["topicDescription"],
         urlImageTopic: json["urlImageTopic"],
         urlVideoTopic: json["urlVideoTopic"],
@@ -23,7 +23,7 @@ class Topic {
 
   Map<String, dynamic> toJson() => {
         "idTopic": idTopic,
-        "tittleTopic": tittleTopic,
+        "titleTopic": titleTopic,
         "topicDescription": topicDescription,
         "urlImageTopic": urlImageTopic,
         "urlVideoTopic": urlVideoTopic,
