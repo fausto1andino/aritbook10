@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ftoast/ftoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import 'dart:developer' as dev;
-
+import 'package:fluttertoast/fluttertoast.dart';
 import '../bloc/login_bloc.dart';
 import '../core/Provider/main_provider.dart';
 import '../services/auth.services.dart';
@@ -28,10 +27,13 @@ class _LoginPageState extends State<LoginPage> {
 
   //controlador para ocultar la contraseña
   bool _obscureText = true;
+  late FToast fToast;
 
   //Inicializacion de las variables
   @override
   void initState() {
+    fToast = FToast();
+    fToast.init(context);
     bloc = LoginBloc();
     super.initState();
   }
@@ -90,7 +92,8 @@ class _LoginPageState extends State<LoginPage> {
                             Column(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 35),
                                   child: TextField(
                                       controller: _nameController,
                                       keyboardType: TextInputType.name,
@@ -99,17 +102,17 @@ class _LoginPageState extends State<LoginPage> {
                                           icon: Icon(Icons.email,
                                               color: Theme.of(context)
                                                   .primaryColorDark),
-                                          hintText: 'nombre del estudiante',
-                                          labelText: 'Nombre de Usuario')),
+                                          hintText: 'Ingresa tu correo',
+                                          labelText: 'Correo electrónico')),
                                 ),
-
                                 StreamBuilder(
                                     //controlador de contraseña
                                     stream: bloc.passwordStream,
                                     builder: (BuildContext context,
                                             AsyncSnapshot snapshot) =>
                                         Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8, horizontal: 35),
                                           child: TextField(
                                               controller: _passwordController,
                                               keyboardType:
@@ -145,27 +148,6 @@ class _LoginPageState extends State<LoginPage> {
                                                 labelText: 'Contraseña',
                                               )),
                                         )),
-
-                                SizedBox(
-                                  width: size.width * 0.7,
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    child: SignInButton(
-                                      Buttons.google,
-                                      elevation: 4.0,
-                                      text: 'Iniciar con Google',
-                                      onPressed: () async {
-                                        if (buttonGoogle) {
-                                          buttonGoogle = false;
-                                          dev.log("Iniciar sesión");
-                                          var result = googleSignIn(context);
-                                          buttonGoogle = true;
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                //const SizedBox(height: 20),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -187,7 +169,8 @@ class _LoginPageState extends State<LoginPage> {
                               ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 16, horizontal: 16),
                               child: Align(
                                 alignment: Alignment.bottomCenter,
                                 child: SizedBox(
@@ -206,11 +189,63 @@ class _LoginPageState extends State<LoginPage> {
                                                         .primaryColor,
                                                   )))),
                                       onPressed: () async {
-                                        onClickLogin();
+                                        loginWithEmail();
                                         setState(() {});
                                       },
                                       icon: const Icon(Icons.login),
                                       label: const Text("Ingresar")),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 35),
+                              child: SizedBox(
+                                width: size.width * 0.8,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: SignInButton(
+                                    Buttons.google,
+                                    elevation: 8.0,
+                                    text: 'Iniciar con Google',
+                                    onPressed: () async {
+                                      if (buttonGoogle) {
+                                        buttonGoogle = false;
+                                        dev.log("Iniciar sesión");
+                                        var result = googleSignIn(context);
+                                        buttonGoogle = true;
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            //const SizedBox(height: 20),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 16, horizontal: 35.0),
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: SizedBox(
+                                  height: 45,
+                                  width: double.infinity,
+                                  child: ElevatedButton.icon(
+                                      style: ButtonStyle(
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          18.0),
+                                                  side: BorderSide(
+                                                    color: Theme.of(context)
+                                                        .secondaryHeaderColor,
+                                                  )))),
+                                      onPressed: () async {
+                                        loginWithEmail();
+                                        setState(() {});
+                                      },
+                                      icon: const Icon(Icons.person_add),
+                                      label: const Text("Registrate")),
                                 ),
                               ),
                             ),
@@ -226,35 +261,24 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  onClickLogin() {
+  loginWithEmail() async {
     dev.log('Login');
     // Store user logged in
-    final mainProvider = Provider.of<MainProvider>(context, listen: false);
+    AuthServices auth = AuthServices();
 
-    mainProvider.updateToken(_nameController.text);
-
-    // Show Main screen
-
-    Navigator.of(context).pushAndRemoveUntil(
-        PageRouteBuilder(
-          pageBuilder: (context, a1, a2) {
-            return const MyHomePage(
-              title: "Pagina Principal",
-            );
-          },
-          transitionsBuilder: (c, anim, a2, child) {
-            const begin = Offset(0.0, 1.0);
-            const end = Offset.zero;
-            const curve = Curves.ease;
-            var tween =
-                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-            return SlideTransition(
-              position: anim.drive(tween),
-              child: child,
-            );
-          },
-        ),
-        (route) => false);
+    bool success = await auth
+        .loginWithEmail(_nameController.text, _passwordController.text, context)
+        .then((value) {
+      dev.log(value.toString());
+      value
+          ? toast.ToastCorrect('Inicio de sesión exitoso')
+          : toast.ToastError("Revisa tu correo y contraseña");
+      dev.log("Valor de toast");
+      return value;
+    });
+    success
+        ? toast.ToastCorrect('Inicio de sesión exitoso')
+        : toast.ToastError("Revisa tu correo y contraseña");
   }
 
   googleSignIn(context) async {

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:aritbook10/src/services/shared_prefs.services.dart';
 import 'package:aritbook10/src/services/user.services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,7 +8,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
+import '../core/Provider/main_provider.dart';
 import '../models/user_data.model.dart';
 import '../pages/home_page.dart';
 import '../pages/login_page.dart';
@@ -59,14 +63,35 @@ class AuthServices {
   Future<bool> loginWithEmail(
       String email, String password, BuildContext context) async {
     try {
+      final mainProvider = Provider.of<MainProvider>(context, listen: false);
+
       var credential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       dev.log(credential.toString());
-      await sharedPrefs.setUserID(credential.user!.uid);
-      /*Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));*/
+      
+      mainProvider.updateToken(credential.user!.uid);
+
+      Navigator.of(context).pushAndRemoveUntil(
+          PageRouteBuilder(
+            pageBuilder: (context, a1, a2) {
+              return const MyHomePage(
+                title: "Pagina Principal",
+              );
+            },
+            transitionsBuilder: (c, anim, a2, child) {
+              const begin = Offset(0.0, 1.0);
+              const end = Offset.zero;
+              const curve = Curves.ease;
+              var tween =
+                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+              return SlideTransition(
+                position: anim.drive(tween),
+                child: child,
+              );
+            },
+          ),
+          (route) => false);
       return true;
-      //dev.log(credential.toString());
     } catch (e) {
       return false;
       //dev.log(e.toString());
@@ -75,6 +100,8 @@ class AuthServices {
 
   Future<bool> loginWithGoogle(BuildContext context) async {
     try {
+      final mainProvider = Provider.of<MainProvider>(context, listen: false);
+
       var db = FirebaseFirestore.instance;
       final emailRef = db.collection("users");
       final UserServices userServices = UserServices();
@@ -92,6 +119,10 @@ class AuthServices {
       await googleCreateAccount(googleSignInAccount, context);
       dev.log("Current User");
       dev.log(auth.currentUser.toString());
+      mainProvider.updateToken(auth.currentUser!.uid);
+      dev.log('TOKEN');
+      dev.log(mainProvider.token);
+      dev.log('TOKEN');
       Navigator.of(context).pushAndRemoveUntil(
           PageRouteBuilder(
             pageBuilder: (context, a1, a2) {
