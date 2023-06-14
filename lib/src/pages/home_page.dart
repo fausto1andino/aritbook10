@@ -1,4 +1,5 @@
 import 'package:aritbook10/src/models/UnitModel/unit_model.dart';
+import 'package:aritbook10/src/services/unit_content.services.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 import '../services/auth.services.dart';
@@ -19,6 +20,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     // TODO: implement initState
+    getContent();
     unitOneBook = [unit1Example(), unit2Example()];
     super.initState();
   }
@@ -48,11 +50,27 @@ class _MyHomePageState extends State<MyHomePage> {
                       icon: Icon(Icons.logout_outlined),
                     ),
                   ),
+                  Container(
+                    height: 100,
+                    width: 200,
+                    child: IconButton(
+                      tooltip: "Datos",
+                      onPressed: () {
+                        getContent();
+                      },
+                      icon: Icon(Icons.dataset),
+                    ),
+                  ),
                 ],
               )
             ],
           ),
         ));
+  }
+
+  getContent() {
+    UnitContent unitContent = UnitContent();
+    unitContent.getContent();
   }
 
   logOut() {

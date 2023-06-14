@@ -5,6 +5,7 @@ import 'package:aritbook10/src/widgets/TheneDetails/problemwidget.dart';
 import 'package:aritbook10/src/widgets/TheneDetails/questionswidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'src/pages/home_page.dart';
 import 'src/pages/themedetails_page.dart';
@@ -13,12 +14,14 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (value) {
       runApp(
+        
         MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (_) => MainProvider()),
@@ -42,8 +45,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    
     final mainProviderSave = Provider.of<MainProvider>(context, listen: false);
     return MaterialApp(
+      
       debugShowCheckedModeBanner: false,
       title: 'AritBook10',
       routes: {
