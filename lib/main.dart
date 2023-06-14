@@ -1,6 +1,7 @@
 import 'package:aritbook10/src/common/Themes/data_theme.dart';
 import 'package:aritbook10/src/core/Provider/main_provider.dart';
 import 'package:aritbook10/src/pages/login_page.dart';
+import 'package:aritbook10/src/widgets/TheneDetails/problemwidget.dart';
 import 'package:aritbook10/src/widgets/TheneDetails/questionswidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,6 +49,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         'detailsTheme': (_) => const ThemeDetailsScreen(),
         'questionWidget': (_) => const QuestionWidget(),
+        'problemWidget': (_) => const ProblemWidget()
       },
       theme: AppTheme.themeData(false).copyWith(
           pageTransitionsTheme: const PageTransitionsTheme(

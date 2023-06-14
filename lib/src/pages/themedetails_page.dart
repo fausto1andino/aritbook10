@@ -23,7 +23,6 @@ List<PanelController> panelControllerList = [];
 class ThemeDetailsScreenState extends State<ThemeDetailsScreen> {
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     panelControllerList.clear();
   }
@@ -64,7 +63,13 @@ class ThemeDetailsScreenState extends State<ThemeDetailsScreen> {
               ),
             ),
             SliverToBoxAdapter(
-                child: QuestionPage(questions: unitBook.unitQuestion)),
+                child:
+                    QuestionPage(questions: unitBook.unitQuestion, type: "")),
+            SliverToBoxAdapter(
+                child: QuestionPage(
+              questions: unitBook.unitQuestion,
+              type: "lesson",
+            )),
           ],
         ),
       ],
