@@ -102,7 +102,7 @@ UnitBook unit1Example() {
     UnitQuestion(
         idQuestion: 1,
         titleQuestion:
-            "¿La abscisa 3,7 en el cual el 3 se encuenta abierto y el otro es 7 el cual esta cerrado? \n Coloque el punto y Grafique la recta",
+            "¿El par ordenado 3,7 en el cual 3 se encuenta abierto y el otro es 7 el cual esta cerrado? \n Coloque el punto y Grafique la recta",
         option: optionUnitOneQuestions1),
     UnitQuestion(
         idQuestion: 2,

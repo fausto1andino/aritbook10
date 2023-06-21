@@ -6,6 +6,8 @@ import 'dart:developer' as dev;
 import 'package:fluttertoast/fluttertoast.dart';
 import '../bloc/login_bloc.dart';
 import '../core/Provider/main_provider.dart';
+import '../services/auth.services.dart';
+import '../widgets/toast.widget.dart';
 import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,12 +17,14 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
+bool buttonGoogle = true;
 final TextEditingController _nameController = TextEditingController();
 final TextEditingController _passwordController = TextEditingController();
 
 class _LoginPageState extends State<LoginPage> {
   //controlador de las validaciones
   late LoginBloc bloc;
+  late FToast fToast;
 
   //controlador para ocultar la contraseña
   bool _obscureText = true;
@@ -29,6 +33,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     bloc = LoginBloc();
+    fToast = FToast();
+    fToast.init(context);
     super.initState();
   }
 
@@ -140,16 +146,28 @@ class _LoginPageState extends State<LoginPage> {
                                                 labelText: 'Contraseña',
                                               )),
                                         )),
-                                Row(
+                                Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
+                                    SignInButton(
+                                      Buttons.google,
+                                      elevation: 2.0,
+                                      text: 'Iniciar con Google',
+                                      onPressed: () async {
+                                        if (buttonGoogle) {
+                                          buttonGoogle = false;
+                                          var result = googleSignIn(context);
+                                          buttonGoogle = true;
+                                        }
+                                      },
+                                    ),
                                     const SizedBox(
                                       width: 5,
                                     ),
                                     TextButton(
                                         onPressed: () {},
-                                        child: Text("Olvide mi Contraseña",
+                                        child: Text("Olvidé mi Contraseña",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodySmall!
@@ -228,5 +246,63 @@ class _LoginPageState extends State<LoginPage> {
           },
         ),
         (route) => false);
+  }
+
+  googleSignIn(context) async {
+    AuthServices auth = AuthServices();
+    bool toast = await auth.loginWithGoogle(context).then((value) {
+      dev.log(value.toString());
+      dev.log("Valor de toast");
+      return value;
+    });
+    toast ? ToastCorrect() : ToastError("No se pudo iniciar sesión");
+  }
+
+  void ToastCorrect() {
+    return fToast.showToast(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25.0),
+          color: Colors.greenAccent,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.check),
+            SizedBox(
+              width: 12.0,
+            ),
+            Text("Inicio de sesión exitoso"),
+          ],
+        ),
+      ),
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: Duration(seconds: 2),
+    );
+  }
+
+  void ToastError(String errorMessage) {
+    return fToast.showToast(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25.0),
+          color: Colors.redAccent,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.error),
+            SizedBox(
+              width: 12.0,
+            ),
+            Text(errorMessage),
+          ],
+        ),
+      ),
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: Duration(seconds: 2),
+    );
   }
 }
