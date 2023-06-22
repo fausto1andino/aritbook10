@@ -7,10 +7,11 @@ import '../models/UnitModel/unit_model.dart';
 import '../models/UnitModel/unittopic_model.dart';
 
 class UnitContent {
-  Future<UnitBook> getContent() async {
+  Future<List<UnitBook>> getContent() async {
     var db = FirebaseFirestore.instance;
     final content = db.collection('contenido').orderBy('unidad');
     final fullContent = await content.get();
+    List<UnitBook> totalBook = [];
     Future<UnitBook> unitBook = Future.value(UnitBook(
         descriptionUnitBook: '',
         idUnitBook: '',
@@ -81,10 +82,10 @@ class UnitContent {
           unitSubject: unitSubject,
           unitQuestion: [],
         );
+        totalBook.add(unit);
         dev.log("UNIT");
-        return unit;
       }
-      return unitBook;
+      return totalBook;
       //dev.log("UNITBOOK");
       //dev.log(unitBook.toString());
     } catch (e) {

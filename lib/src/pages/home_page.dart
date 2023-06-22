@@ -73,10 +73,12 @@ class _MyHomePageState extends State<MyHomePage> {
     UnitContent unitContent = UnitContent();
     dev.log("HOMESCREEN");
 
-    UnitBook? data = await unitContent.getContent();
+    List<UnitBook>? data = await unitContent.getContent();
 
-    dev.log(data!.idUnitBook);
-    unitOneBook = [data];
+    for (var item in data!) {
+      unitOneBook.add(item);
+    }
+
     setState(() {
       data_loading = false;
     });
