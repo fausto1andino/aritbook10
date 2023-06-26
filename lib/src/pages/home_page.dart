@@ -72,6 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
   getContent() async {
     UnitContent unitContent = UnitContent();
     dev.log("HOMESCREEN");
+    unitOneBook.clear();
 
     List<UnitBook>? data = await unitContent.getContent();
 
