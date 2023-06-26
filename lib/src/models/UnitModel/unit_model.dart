@@ -62,26 +62,31 @@ UnitBook unit1Example() {
   List<Option> optionUnitOneQuestions1 = [
     Option(idOption: 1, answerOption: "openAngle", isTheCorrectOption: true),
     Option(idOption: 2, answerOption: "closedAngle", isTheCorrectOption: true),
-    Option(idOption: 3, answerOption: "3", isTheCorrectOption: true),
-    Option(idOption: 4, answerOption: "7", isTheCorrectOption: true),
+    Option(idOption: 3, answerOption: "7", isTheCorrectOption: true),
+    Option(idOption: 4, answerOption: "10", isTheCorrectOption: true),
   ];
   List<Option> optionUnitOneQuestions2 = [
-    Option(idOption: 1, answerOption: "3", isTheCorrectOption: true),
-    Option(idOption: 2, answerOption: "2", isTheCorrectOption: true),
-    Option(idOption: 3, answerOption: "5", isTheCorrectOption: true),
-    Option(idOption: 4, answerOption: "4", isTheCorrectOption: true),
+    Option(idOption: 1, answerOption: "openAngle", isTheCorrectOption: true),
+    Option(idOption: 2, answerOption: "closedAngle", isTheCorrectOption: true),
+    Option(idOption: 3, answerOption: "-3", isTheCorrectOption: true),
+    Option(idOption: 4, answerOption: "7", isTheCorrectOption: true),
   ];
   List<Option> optionUnitOneQuestions3 = [
-    Option(
-        idOption: 1, answerOption: "...Respuesta 1", isTheCorrectOption: true),
-    Option(
-        idOption: 2, answerOption: "...Respuesta 2", isTheCorrectOption: false),
-    Option(
-        idOption: 3, answerOption: "...Respuesta 3", isTheCorrectOption: false),
-    Option(
-        idOption: 4, answerOption: "...Respuesta 4", isTheCorrectOption: false),
+    Option(idOption: 1, answerOption: "(-5, 8)", isTheCorrectOption: true),
+    Option(idOption: 2, answerOption: "(-1, 4)", isTheCorrectOption: true),
+    Option(idOption: 3, answerOption: "-1", isTheCorrectOption: true),
+    Option(idOption: 4, answerOption: "8x+1", isTheCorrectOption: true),
   ];
+
   List<Option> optionUnitOneQuestions4 = [
+    Option(idOption: 1, answerOption: "3", isTheCorrectOption: true),
+    Option(idOption: 2, answerOption: "7", isTheCorrectOption: true),
+    Option(
+        idOption: 3, answerOption: "...Respuesta 3", isTheCorrectOption: true),
+    Option(
+        idOption: 4, answerOption: "...Respuesta 4", isTheCorrectOption: true),
+  ];
+  List<Option> optionUnitOneQuestions5 = [
     Option(
         idOption: 1, answerOption: "....Respuesta 1", isTheCorrectOption: true),
     Option(
@@ -101,22 +106,35 @@ UnitBook unit1Example() {
   List<UnitQuestion> unitOneQuestions = [
     UnitQuestion(
         idQuestion: 1,
-        titleQuestion:
-            "¿La abscisa 3,7 en el cual el 3 se encuenta abierto y el otro es 7 el cual esta cerrado? \n Coloque el punto y Grafique la recta",
+        titleQuestion: "Grafique el siguiente intervalo: ",
+        feedBackTextQuestion: "",
+        urlImageOrVideoQuestion: "",
         option: optionUnitOneQuestions1),
     UnitQuestion(
         idQuestion: 2,
-        titleQuestion:
-            " En este mapa es necesario graficar una linea en el punto inicial (3, 2) y a su destino es el (5, 3) \n Coloque los puntos y Grafique la recta",
+        titleQuestion: "Grafique el siguiente intervalo:  ",
+        feedBackTextQuestion: "",
+        urlImageOrVideoQuestion: "",
         option: optionUnitOneQuestions2),
     UnitQuestion(
         idQuestion: 3,
-        titleQuestion: "Determine el producto cartesiano de: []",
+        titleQuestion: "Grafique y Estime el valor de la pendiente m de los puntos P1 (-5, 8) y P2  P2 (-1, 4), adicionalmente formule la ecuación de la recta de P1 ",
+        feedBackTextQuestion: "",
+        urlImageOrVideoQuestion: "",
         option: optionUnitOneQuestions3),
     UnitQuestion(
-        idQuestion: 4,
-        titleQuestion: "Evaluar la siguiente ecuación: []",
+        idQuestion: 3,
+        titleQuestion:
+            "Dada la siguiente relacion en el conjunto A y B encontrar los valores que se asocien",
+        feedBackTextQuestion: "",
+        urlImageOrVideoQuestion: "",
         option: optionUnitOneQuestions4),
+    UnitQuestion(
+        idQuestion: 4,
+        titleQuestion: "Dada la siguiente funcion determinar si es funcion o no, tambien determinar el domino y rango de la funcion",
+        feedBackTextQuestion: "",
+        urlImageOrVideoQuestion: "",
+        option: optionUnitOneQuestions5),
   ];
 
   ///
