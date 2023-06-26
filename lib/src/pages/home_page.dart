@@ -15,7 +15,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late List<UnitBook> unitOneBook;
+  late List<UnitBook> unitOneBook = [];
   bool data_loading = true;
   @override
   void initState() {

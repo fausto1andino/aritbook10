@@ -178,7 +178,7 @@ UnitBook unit1Example() {
       urlMainImage:
           "https://4.bp.blogspot.com/-_iS2aIwixHg/WYJ23N3nElI/AAAAAAAABFw/EtIzL5wqd3UFWsPawlCGVpodD-Q1Ol1cACEwYBhgL/s1600/unidad1.png",
       descriptionUnitBook:
-          "Definir y reconocer funciones de manera algebraica y de manera gráfica, con diagramas de Venn, determinando su dominio y recorrido en Z.",
+          "Esta es una nueva plantilla acerca de Fisica cuantica.",
 
       //Agregar Informacion
       unitSubject: unitSubject1,
@@ -201,17 +201,16 @@ UnitBook unit2Example() {
         idSubject: 1,
         titleSubject: "Ejemplo 1",
         descriptionSubject:
-            "Esta fluctuación diaria de energía es un ejemplo práctico de una función, la cual puede ser explicada mediante una gráfica.",
+            "Esta es una nueva plantilla acerca de Fisica cuantica",
         topic: subjectUnit1Subject1)
   ];
   return UnitBook(
       idUnitBook: "unidad_2",
-      titleUnitBook:
-          "Análisis Algebraico y Gráfico de Funciones: Dominio, Recorrido y Representación con Diagramas de Venn en Z",
+      titleUnitBook: "Esta es una nueva plantilla acerca de Fisica cuantica",
       urlMainImage:
           "https://4.bp.blogspot.com/-8E1gYATAoOQ/WYJ23QBHbFI/AAAAAAAABFw/opP-0DTujBADYBMWkOG9AewVsADE64AzgCPcBGAYYCw/s1600/unidad2.png",
       descriptionUnitBook:
-          "Definir y reconocer funciones de manera algebraica y de manera gráfica, con diagramas de Venn, determinando su dominio y recorrido en Z.",
+          " Esta es una nueva plantilla acerca de Fisica cuantica",
       unitSubject: unitSubject1,
       unitQuestion: unitOneQuestions);
 }
