@@ -20,6 +20,8 @@ class UnitSubject {
         topic: List<Topic>.from(json["topic"].map((x) => Topic.fromJson(x))),
       );
 
+  String? get id => null;
+
   Map<String, dynamic> toJson() => {
         "idSubject": idSubject,
         "titleSubject": titleSubject,

@@ -16,12 +16,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late List<UnitBook> unitOneBook;
-
+  bool data_loading = true;
   @override
   void initState() {
     // TODO: implement initState
     getContent();
-    unitOneBook = [unit1Example(), unit2Example()];
     super.initState();
   }
 
@@ -31,46 +30,58 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              ThemeSwipper(
-                unitBooks: unitOneBook,
-              ),
-              Stack(
-                children: [
-                  Container(
-                    height: 200,
-                    width: 200,
-                    child: IconButton(
-                      tooltip: "Cerrar sesión",
-                      onPressed: () {
-                        logOut();
-                      },
-                      icon: Icon(Icons.logout_outlined),
+        body: data_loading
+            ? Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ThemeSwipper(
+                      unitBooks: unitOneBook,
                     ),
-                  ),
-                  Container(
-                    height: 100,
-                    width: 200,
-                    child: IconButton(
-                      tooltip: "Datos",
-                      onPressed: () {
-                        getContent();
-                      },
-                      icon: Icon(Icons.dataset),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ));
+                    Stack(
+                      children: [
+                        Container(
+                          height: 200,
+                          width: 200,
+                          child: IconButton(
+                            tooltip: "Cerrar sesión",
+                            onPressed: () {
+                              logOut();
+                            },
+                            icon: Icon(Icons.logout_outlined),
+                          ),
+                        ),
+                        Container(
+                          height: 100,
+                          width: 200,
+                          child: IconButton(
+                            tooltip: "Datos",
+                            onPressed: () {
+                              getContent();
+                            },
+                            icon: Icon(Icons.dataset),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ));
   }
 
-  getContent() {
+  getContent() async {
     UnitContent unitContent = UnitContent();
-    unitContent.getContent();
+    dev.log("HOMESCREEN");
+
+    List<UnitBook>? data = await unitContent.getContent();
+
+    for (var item in data!) {
+      unitOneBook.add(item);
+    }
+
+    setState(() {
+      data_loading = false;
+    });
   }
 
   logOut() {

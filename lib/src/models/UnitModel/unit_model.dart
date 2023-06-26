@@ -175,55 +175,6 @@ UnitBook unit1Example() {
         urlVideoTopic: "")
   ];
 
-  List<Topic> subjectUnit1Subject3 = [
-    Topic(
-        idTopic: 1,
-        titleTopic: "Ejemplo de energía en el día.",
-        topicDescription: "Jhonatan Laines",
-        urlImageTopic:
-            "https://res.cloudinary.com/dsuh0d4g5/image/upload/v1684299777/DocIDImage/example1IMG1_rgcrno.png",
-        urlVideoTopic: ""),
-  ];
-
-  List<Topic> subjectUnit1Subject4 = [
-    Topic(
-        idTopic: 1,
-        titleTopic: "Ejemplo de energía en el día.",
-        topicDescription: "Jhonatan Laines",
-        urlImageTopic:
-            "https://res.cloudinary.com/dsuh0d4g5/image/upload/v1684299777/DocIDImage/example1IMG1_rgcrno.png",
-        urlVideoTopic: ""),
-  ];
-  //Ejemplos
-  List<Topic> subjectUnit1Subject5 = [
-    Topic(
-        idTopic: 1,
-        titleTopic: "Ejemplo de energía en el día.",
-        topicDescription: "Jhonatan Laines",
-        urlImageTopic:
-            "https://res.cloudinary.com/dsuh0d4g5/image/upload/v1684299777/DocIDImage/example1IMG1_rgcrno.png",
-        urlVideoTopic: ""),
-  ];
-
-  List<Topic> subjectUnit1Subject6 = [
-    Topic(
-        idTopic: 1,
-        titleTopic: "Ejemplo de energía en el día.",
-        topicDescription: "Jhonatan Laines",
-        urlImageTopic:
-            "https://res.cloudinary.com/dsuh0d4g5/image/upload/v1684299777/DocIDImage/example1IMG1_rgcrno.png",
-        urlVideoTopic: ""),
-  ];
-
-  List<Topic> subjectUnit1Subject7 = [
-    Topic(
-        idTopic: 1,
-        titleTopic: "Ejemplo de energía en el día.",
-        topicDescription: "Jhonatan Laines",
-        urlImageTopic:
-            "https://res.cloudinary.com/dsuh0d4g5/image/upload/v1684299777/DocIDImage/example1IMG1_rgcrno.png",
-        urlVideoTopic: ""),
-  ];
   List<UnitSubject> unitSubject1 = [
     UnitSubject(
         idSubject: 1,
@@ -237,36 +188,6 @@ UnitBook unit1Example() {
         descriptionSubject:
             "Esta fluctuación diaria de energía es un ejemplo práctico de una función, la cual puede ser explicada mediante una gráfica.",
         topic: subjectUnit1Subject2),
-    UnitSubject(
-        idSubject: 3,
-        titleSubject: "Dominio y Codominio o Rango",
-        descriptionSubject:
-            "Esta fluctuación diaria de energía es un ejemplo práctico de una función, la cual puede ser explicada mediante una gráfica.",
-        topic: subjectUnit1Subject3),
-    UnitSubject(
-        idSubject: 4,
-        titleSubject: "Producto Cartesiano",
-        descriptionSubject:
-            "Esta fluctuación diaria de energía es un ejemplo práctico de una función, la cual puede ser explicada mediante una gráfica.",
-        topic: subjectUnit1Subject4),
-    UnitSubject(
-        idSubject: 5,
-        titleSubject: "Formas de Representar",
-        descriptionSubject:
-            "Esta fluctuación diaria de energía es un ejemplo práctico de una función, la cual puede ser explicada mediante una gráfica.",
-        topic: subjectUnit1Subject5),
-    UnitSubject(
-        idSubject: 6,
-        titleSubject: "Relación",
-        descriptionSubject:
-            "Esta fluctuación diaria de energía es un ejemplo práctico de una función, la cual puede ser explicada mediante una gráfica.",
-        topic: subjectUnit1Subject6),
-    UnitSubject(
-        idSubject: 7,
-        titleSubject: "Función",
-        descriptionSubject:
-            "Esta fluctuación diaria de energía es un ejemplo práctico de una función, la cual puede ser explicada mediante una gráfica.",
-        topic: subjectUnit1Subject7),
   ];
 
   return UnitBook(
