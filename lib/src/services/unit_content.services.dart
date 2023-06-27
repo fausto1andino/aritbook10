@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:aritbook10/src/models/UnitModel/unitquestion_model.dart';
 import 'package:aritbook10/src/models/UnitModel/unitsubject._model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:developer' as dev;
 import '../models/UnitModel/unit_model.dart';
+import '../models/UnitModel/unitoption_model.dart';
 import '../models/UnitModel/unittopic_model.dart';
 
 class UnitContent {
@@ -23,6 +25,7 @@ class UnitContent {
     try {
       //   db.enableNetwork().then((_) {
       //dev.log("Network enabled");
+
       for (var unidad in fullContent.docs) {
         // dev.log(unidad.id.toString());
         // dev.log(unidad.data().toString());
@@ -31,10 +34,44 @@ class UnitContent {
             .doc(unidad.id)
             .collection('temas')
             .orderBy('idSubject', descending: false);
+        var unitQuestionContent =
+            db.collection('contenido').doc(unidad.id).collection('preguntas');
+
         var unidadID = unidad.id;
         var units = await unitContent.get();
+        var unitsQuestion = await unitQuestionContent.get();
 
         List<UnitSubject> unitSubject = [];
+        List<UnitQuestion> unitQuestions = [];
+
+        for (var quetions in unitsQuestion.docs) {
+          var quetionsContent = db
+              .collection('contenido')
+              .doc(unidadID)
+              .collection('preguntas')
+              .doc(quetions.id)
+              .collection("option")
+              .orderBy('idOption', descending: false);
+          var quetionContent = await quetionsContent.get();
+          List<Option> options = [];
+          for (var option in quetionContent.docs) {
+            var dataOptions = option.data();
+            Option dataOption = Option(
+                idOption: dataOptions["idOption"],
+                answerOption: dataOptions["answerOption"],
+                isTheCorrectOption: dataOptions["isTheCorrectOption"]);
+            options.add(dataOption);
+          }
+          var dataQuestions = quetions.data();
+          UnitQuestion unitQuestion = UnitQuestion(
+              idQuestion: dataQuestions["idQuestion"],
+              titleQuestion: dataQuestions["titleQuestion"],
+              feedBackTextQuestion: dataQuestions["feedBackQuestion"],
+              urlImageOrVideoQuestion: dataQuestions["urlImageOrVideoQuestion"],
+              option: options);
+          unitQuestions.add(unitQuestion);
+          dev.log("Question");
+        }
 
         for (var tema in units.docs) {
           // dev.log(tema.id.toString());
@@ -80,7 +117,7 @@ class UnitContent {
           urlMainImage: datos['urlMainImage'],
           descriptionUnitBook: datos['descriptionUnitBook'],
           unitSubject: unitSubject,
-          unitQuestion: [],
+          unitQuestion: unitQuestions,
         );
         totalBook.add(unit);
         dev.log("UNIT");
