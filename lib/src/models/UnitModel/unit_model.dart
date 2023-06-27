@@ -105,32 +105,32 @@ UnitBook unit1Example() {
 
   List<UnitQuestion> unitOneQuestions = [
     UnitQuestion(
-        idQuestion: 1,
+        idQuestion: "1",
         titleQuestion: "Grafique el siguiente intervalo: ",
         feedBackTextQuestion: "",
         urlImageOrVideoQuestion: "",
         option: optionUnitOneQuestions1),
     UnitQuestion(
-        idQuestion: 2,
+        idQuestion: "2",
         titleQuestion: "Grafique el siguiente intervalo:  ",
         feedBackTextQuestion: "",
         urlImageOrVideoQuestion: "",
         option: optionUnitOneQuestions2),
     UnitQuestion(
-        idQuestion: 3,
+        idQuestion: "3",
         titleQuestion: "Grafique y Estime el valor de la pendiente m de los puntos P1 (-5, 8) y P2  P2 (-1, 4), adicionalmente formule la ecuación de la recta de P1 ",
         feedBackTextQuestion: "",
         urlImageOrVideoQuestion: "",
         option: optionUnitOneQuestions3),
     UnitQuestion(
-        idQuestion: 3,
+        idQuestion: "3",
         titleQuestion:
             "Dada la siguiente relacion en el conjunto A y B encontrar los valores que se asocien",
         feedBackTextQuestion: "",
         urlImageOrVideoQuestion: "",
         option: optionUnitOneQuestions4),
     UnitQuestion(
-        idQuestion: 4,
+        idQuestion: "4",
         titleQuestion: "Dada la siguiente funcion determinar si es funcion o no, tambien determinar el domino y rango de la funcion",
         feedBackTextQuestion: "",
         urlImageOrVideoQuestion: "",

@@ -1,7 +1,7 @@
 import 'package:aritbook10/src/models/UnitModel/unitquestion_model.dart';
 
 class UnitQuestion {
-  int idQuestion;
+  String idQuestion;
   String titleQuestion;
   String feedBackTextQuestion;
   String urlImageOrVideoQuestion;
