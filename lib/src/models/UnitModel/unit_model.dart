@@ -75,16 +75,14 @@ UnitBook unit1Example() {
     Option(idOption: 1, answerOption: "(-5, 8)", isTheCorrectOption: true),
     Option(idOption: 2, answerOption: "(-1, 4)", isTheCorrectOption: true),
     Option(idOption: 3, answerOption: "-1", isTheCorrectOption: true),
-    Option(idOption: 4, answerOption: "8x+1", isTheCorrectOption: true),
+    Option(idOption: 4, answerOption: "-x+13", isTheCorrectOption: true),
   ];
 
   List<Option> optionUnitOneQuestions4 = [
     Option(idOption: 1, answerOption: "3", isTheCorrectOption: true),
-    Option(idOption: 2, answerOption: "7", isTheCorrectOption: true),
-    Option(
-        idOption: 3, answerOption: "...Respuesta 3", isTheCorrectOption: true),
-    Option(
-        idOption: 4, answerOption: "...Respuesta 4", isTheCorrectOption: true),
+    Option(idOption: 2, answerOption: "2,3,5", isTheCorrectOption: true),
+    Option(idOption: 3, answerOption: "5,7,11", isTheCorrectOption: true),
+    Option(idOption: 4, answerOption: "R", isTheCorrectOption: true),
   ];
   List<Option> optionUnitOneQuestions5 = [
     Option(
@@ -107,32 +105,34 @@ UnitBook unit1Example() {
     UnitQuestion(
         idQuestion: "1",
         titleQuestion: "Grafique el siguiente intervalo: ",
-        feedBackTextQuestion: "",
+        feedBackQuestion: "",
         urlImageOrVideoQuestion: "",
         option: optionUnitOneQuestions1),
     UnitQuestion(
         idQuestion: "2",
         titleQuestion: "Grafique el siguiente intervalo:  ",
-        feedBackTextQuestion: "",
+        feedBackQuestion: "",
         urlImageOrVideoQuestion: "",
         option: optionUnitOneQuestions2),
     UnitQuestion(
         idQuestion: "3",
-        titleQuestion: "Grafique y Estime el valor de la pendiente m de los puntos P1 (-5, 8) y P2  P2 (-1, 4), adicionalmente formule la ecuación de la recta de P1 ",
-        feedBackTextQuestion: "",
+        titleQuestion:
+            "Grafique y Estime el valor de la pendiente m de los puntos P1 (-5, 8) y P2  P2 (-1, 4), adicionalmente formule la ecuación de la recta de P1 ",
+        feedBackQuestion: "",
         urlImageOrVideoQuestion: "",
         option: optionUnitOneQuestions3),
     UnitQuestion(
         idQuestion: "3",
         titleQuestion:
             "Dada la siguiente relacion en el conjunto A y B encontrar los valores que se asocien",
-        feedBackTextQuestion: "",
+        feedBackQuestion: "",
         urlImageOrVideoQuestion: "",
         option: optionUnitOneQuestions4),
     UnitQuestion(
         idQuestion: "4",
-        titleQuestion: "Dada la siguiente funcion determinar si es funcion o no, tambien determinar el domino y rango de la funcion",
-        feedBackTextQuestion: "",
+        titleQuestion:
+            "Dada la siguiente funcion determinar si es funcion o no, tambien determinar el domino y rango de la funcion",
+        feedBackQuestion: "",
         urlImageOrVideoQuestion: "",
         option: optionUnitOneQuestions5),
   ];

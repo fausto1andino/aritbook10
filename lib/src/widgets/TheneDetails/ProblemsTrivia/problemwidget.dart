@@ -4,10 +4,12 @@ import 'dart:developer';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:math_keyboard/math_keyboard.dart';
 import '../../../models/UnitModel/unitoption_model.dart';
+import '../../../models/UnitModel/unitquestion_model.dart';
 import '../../../pages/home_page.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_tex/flutter_tex.dart';
@@ -27,6 +29,7 @@ final PanelController _panelToolKitDownPanelController = PanelController();
 MathFieldEditingController polynomialController = MathFieldEditingController();
 
 int _counter = 31;
+int totalQuestion = 0;
 int _cc = 0;
 int score = 0;
 int _manyOption = 3;
@@ -102,7 +105,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
     final List<UnitQuestion> unitQuestion =
         ModalRoute.of(context)!.settings.arguments as List<UnitQuestion>;
     Size screenMediaSales = MediaQuery.of(context).size;
-
+    totalQuestion = unitQuestion.length;
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -117,7 +120,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                       children: [
                         _slidingUpOptionUpGraphToolKit(
                             screenMediaSales, unitQuestion),
-                        (_cc <= 1)
+                        (unitQuestion[_cc].idQuestion.contains("interval"))
                             ? Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SizedBox(
@@ -125,7 +128,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                                     height: MediaQuery.of(context).size.height,
                                     child: straightEquations(0, unitQuestion)),
                               )
-                            : (_cc == 2)
+                            : (unitQuestion[_cc].idQuestion.contains("pending"))
                                 ? Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: SizedBox(
@@ -136,7 +139,9 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                                                 0.75,
                                         child: linearEquations2Points(
                                             1, unitQuestion)))
-                                : (_cc == 3)
+                                : (unitQuestion[_cc]
+                                        .idQuestion
+                                        .contains("venn"))
                                     ? Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: SizedBox(
@@ -148,7 +153,9 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                                                 .height,
                                             child:
                                                 vennEquations(1, unitQuestion)))
-                                    : (_cc == 4)
+                                    : (unitQuestion[_cc]
+                                            .idQuestion
+                                            .contains("domran"))
                                         ? Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: SizedBox(
@@ -167,9 +174,8 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                                                   .size
                                                   .width,
                                               height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.75,
+                                                  .size
+                                                  .height,
                                               child: PageView.builder(
                                                   physics:
                                                       const NeverScrollableScrollPhysics(),
@@ -248,7 +254,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Ejercicio ${questions[_cc].idQuestion}"),
+              Text("Ejercicio ${_cc + 1}"),
               (_isToolKitDownPanelPanel)
                   ? TextButton.icon(
                       onPressed: () {
@@ -277,13 +283,13 @@ class _ProblemWidgetState extends State<ProblemWidget> {
             ],
           ),
         ),
-        panel: (_cc <= 1)
+        panel: (questions[_cc].idQuestion.contains("interval"))
             ? straight1EquationsSlideUpBody(questions)
-            : (_cc == 2)
+            : (questions[_cc].idQuestion.contains("pending"))
                 ? linearEquations2PointsSlideUpBody(questions)
-                : (_cc == 3)
+                : (questions[_cc].idQuestion.contains("venn"))
                     ? vennEquationsSlideUpBody(questions)
-                    : (_cc == 4)
+                    : (questions[_cc].idQuestion.contains("domran"))
                         ? domainAndRangeSlideUpBody(questions)
                         : Container());
   }
@@ -291,8 +297,10 @@ class _ProblemWidgetState extends State<ProblemWidget> {
   int currentIndex1 = 0;
   int currentIndex2 = 0;
   Widget straight1EquationsSlideUpBody(List<UnitQuestion> questions) {
-    int num1 = 7;
-    int num2 = 10;
+    String typenAngle1 = questions[_cc].option[0].answerOption;
+    String typenAngle2 = questions[_cc].option[1].answerOption;
+    int num1 = int.tryParse(questions[_cc].option[2].answerOption)!;
+    int num2 = int.tryParse(questions[_cc].option[3].answerOption)!;
 
     String latexExpression = r""" <h2>\(""" +
         num1.toString() +
@@ -309,7 +317,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
           child: viewNumberOfQuetion(questions[_cc].titleQuestion),
         ),
       ),
-      (_cc == 0)
+      (questions[_cc].idQuestion.contains("(1)"))
           ? SliverPadding(
               padding: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.025,
@@ -357,7 +365,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
               ),
             )
           : const SliverToBoxAdapter(),
-      (_cc == 0)
+      (questions[_cc].idQuestion.contains("(1)"))
           ? SliverPadding(
               padding: EdgeInsets.only(
                   top: MediaQuery.of(context).size.width * 0.001),
@@ -386,7 +394,10 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                                         bottom:
                                             MediaQuery.of(context).size.width *
                                                 0.1),
-                                    child: Text("( ",
+                                    child: Text(
+                                        (typenAngle1.contains("openAngle"))
+                                            ? "( "
+                                            : "[ ",
                                         style: Theme.of(context)
                                             .textTheme
                                             .headlineLarge!
@@ -397,7 +408,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                                         bottom:
                                             MediaQuery.of(context).size.width *
                                                 0.1),
-                                    child: Text(" -3 ",
+                                    child: Text(" $num1 ",
                                         style: Theme.of(context)
                                             .textTheme
                                             .headlineLarge!
@@ -419,7 +430,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                                         bottom:
                                             MediaQuery.of(context).size.width *
                                                 0.1),
-                                    child: Text(" 7 ",
+                                    child: Text(" $num2 ",
                                         style: Theme.of(context)
                                             .textTheme
                                             .headlineLarge!
@@ -430,7 +441,10 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                                         bottom:
                                             MediaQuery.of(context).size.width *
                                                 0.1),
-                                    child: Text(" ]",
+                                    child: Text(
+                                        (typenAngle2.contains("openAngle"))
+                                            ? " )"
+                                            : " ]",
                                         style: Theme.of(context)
                                             .textTheme
                                             .headlineLarge!
@@ -480,7 +494,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                       id: "inkwell_1",
                       rippleEffect: true,
                       onTap: tapCallbackHandler),
-                  TeXViewInkWell(
+                  /* TeXViewInkWell(
                       child: const TeXViewDocument(
                           r"""<h2>\(y = mx  -  b\)</h2>""",
                           style:
@@ -488,7 +502,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                       style: _teXViewStyle,
                       id: "inkwell_1",
                       rippleEffect: true,
-                      onTap: tapCallbackHandler),
+                      onTap: tapCallbackHandler),*/
                 ]),
                 style: const TeXViewStyle(
                   margin: TeXViewMargin.all(5),
@@ -516,71 +530,6 @@ class _ProblemWidgetState extends State<ProblemWidget> {
           ),
         ),
       ),
-      SliverPadding(
-        padding:
-            EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
-        sliver: SliverToBoxAdapter(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.25),
-                child: Row(
-                  children: [
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Radio<TypeAnbsisa>(
-                              value: TypeAnbsisa.point1,
-                              groupValue: _typeAnbsisa,
-                              onChanged: (TypeAnbsisa? value) {
-                                setState(() {
-                                  _typeAnbsisa = value!;
-                                  _textanswerSended1 =
-                                      value.toString().split('.').last;
-                                  log(_textanswerSended1);
-                                });
-                              },
-                            ),
-                            Text('Punto 1',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(color: Colors.black)),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Radio<TypeAnbsisa>(
-                          value: TypeAnbsisa.point2,
-                          groupValue: _typeAnbsisa,
-                          onChanged: (TypeAnbsisa? value) {
-                            setState(() {
-                              _typeAnbsisa = value!;
-                              _textanswerSended1 =
-                                  value.toString().split('.').last;
-                              log(_textanswerSended2);
-                            });
-                          },
-                        ),
-                        Text('Punto 2',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(color: Colors.black)),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     ]);
   }
 
@@ -595,53 +544,84 @@ class _ProblemWidgetState extends State<ProblemWidget> {
             child: viewNumberOfQuetion(questions[_cc].titleQuestion),
           ),
         ),
-        SliverPadding(
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 0.05,
-          ),
-          sliver: SliverToBoxAdapter(
-            child: SizedBox(
-              height: 200,
-              child: TeXView(
-                  renderingEngine: const TeXViewRenderingEngine.mathjax(),
-                  onRenderFinished: (height) {
-                    log(height.toString());
-                  },
-                  child: TeXViewColumn(children: [
-                    TeXViewInkWell(
-                        child: const TeXViewDocument(
-                            r""" <h2>\(f(x) = {2x+1}\)</h2>""",
-                            style: TeXViewStyle(
-                                textAlign: TeXViewTextAlign.center)),
-                        style: _teXViewStyle,
-                        id: "inkwell_1",
-                        rippleEffect: true,
-                        onTap: tapCallbackHandler),
-                  ]),
-                  style: const TeXViewStyle(
-                    margin: TeXViewMargin.all(5),
-                    padding: TeXViewPadding.all(10),
-                    borderRadius: TeXViewBorderRadius.all(10),
-                    border: TeXViewBorder.all(
-                      TeXViewBorderDecoration(
-                          borderColor: Colors.blue,
-                          borderStyle: TeXViewBorderStyle.solid,
-                          borderWidth: 5),
-                    ),
-                    backgroundColor: Colors.white,
+        SliverToBoxAdapter(
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.width * 0.1),
+                child: Text("Dominio",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(color: Colors.black)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  height: MediaQuery.of(context).size.width * 0.25,
+                  child: MathField(
+                    keyboardType: MathKeyboardType.expression,
+                    variables: const [','],
+                    decoration: InputDecoration(
+                        labelStyle: Theme.of(context)
+                            .textTheme
+                            .headlineLarge!
+                            .copyWith(color: Colors.black)),
+                    onSubmitted: (value) {
+                      setState(() {
+                        if (value.isNotEmpty) {
+                          _textanswerSended2 =
+                              value.replaceAll(RegExp(r'[{}]+'), '');
+                          log(_textanswerSended2);
+                        }
+                      });
+                    },
                   ),
-                  loadingWidgetBuilder: (context) => const Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            CircularProgressIndicator(),
-                            Text("Rendering...")
-                          ],
-                        ),
-                      )),
-            ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.width * 0.1),
+                child: Text("Rango",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(color: Colors.black)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  height: MediaQuery.of(context).size.width * 0.25,
+                  child: MathField(
+                    keyboardType: MathKeyboardType.expression,
+                    variables: const [','],
+                    decoration: InputDecoration(
+                        labelStyle: Theme.of(context)
+                            .textTheme
+                            .headlineLarge!
+                            .copyWith(color: Colors.black)),
+                    onSubmitted: (value) {
+                      setState(() {
+                        if (value.isNotEmpty) {
+                          _textanswerSended3 =
+                              value.replaceAll(RegExp(r'[{}]+'), '');
+                          log(_textanswerSended3);
+                        }
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -668,9 +648,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
               children: [
                 TeXView(
                     renderingEngine: const TeXViewRenderingEngine.mathjax(),
-                    onRenderFinished: (height) {
-                      buildGraph("\\sqrt{x}");
-                    },
+                    onRenderFinished: (height) {},
                     child: TeXViewColumn(children: [
                       TeXViewInkWell(
                           child: const TeXViewDocument(
@@ -789,13 +767,13 @@ class _ProblemWidgetState extends State<ProblemWidget> {
             ],
           ),
         ),
-        panel: (_cc <= 1)
+        panel: (questions[_cc].idQuestion.contains("interval"))
             ? straight1EquationsSlideDownBody(questions)
-            : (_cc == 2)
+            : (questions[_cc].idQuestion.contains("pending"))
                 ? linearEquations2PointsSlideDownBody(questions)
-                : (_cc == 3)
+                : (questions[_cc].idQuestion.contains("venn"))
                     ? vennEquationsSlideDownBody(questions)
-                    : (_cc == 4)
+                    : (questions[_cc].idQuestion.contains("domran"))
                         ? domainAndRangeSlideDownBody(questions)
                         : Container());
   }
@@ -816,7 +794,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              (_cc == 0)
+              (questions[_cc].idQuestion.contains("(1)"))
                   ? SingleChildScrollView(
                       child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.9,
@@ -1024,7 +1002,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                                                     .headlineLarge!
                                                     .copyWith(
                                                         color: Colors.black)),
-                                            onSubmitted: (value) {
+                                            onChanged: (value) {
                                               setState(() {
                                                 if (value.isNotEmpty) {
                                                   _equationX = value;
@@ -1156,7 +1134,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                                                     .headlineLarge!
                                                     .copyWith(
                                                         color: Colors.black)),
-                                            onSubmitted: (value) {
+                                            onChanged: (value) {
                                               setState(() {
                                                 if (value.isNotEmpty) {
                                                   _equationY = value;
@@ -1200,6 +1178,65 @@ class _ProblemWidgetState extends State<ProblemWidget> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.25),
+                    child: Row(
+                      children: [
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Radio<TypeAnbsisa>(
+                                  value: TypeAnbsisa.point1,
+                                  groupValue: _typeAnbsisa,
+                                  onChanged: (TypeAnbsisa? value) {
+                                    setState(() {
+                                      _typeAnbsisa = value!;
+                                      _textanswerSended1 =
+                                          value.toString().split('.').last;
+                                      log(_textanswerSended1);
+                                    });
+                                  },
+                                ),
+                                Text('Punto 1',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(color: Colors.black)),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Radio<TypeAnbsisa>(
+                              value: TypeAnbsisa.point2,
+                              groupValue: _typeAnbsisa,
+                              onChanged: (TypeAnbsisa? value) {
+                                setState(() {
+                                  _typeAnbsisa = value!;
+                                  _textanswerSended1 =
+                                      value.toString().split('.').last;
+                                  log(_textanswerSended2);
+                                });
+                              },
+                            ),
+                            Text('Punto 2',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(color: Colors.black)),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -1226,7 +1263,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                       onSubmitted: (value) {
                         setState(() {
                           if (value.isNotEmpty) {
-                            _textanswerSended4 = value;
+                            _textanswerSended3 = value;
                             log(value);
                           }
                         });
@@ -1418,6 +1455,10 @@ class _ProblemWidgetState extends State<ProblemWidget> {
     );
   }
 
+  String domAngle1 = "openAngle";
+  String domAnlge2 = "openAngle";
+  String ranAngle1 = "openAngle";
+  String ranAnlge2 = "openAngle";
   Widget domainAndRangeSlideDownBody(List<UnitQuestion> questions) {
     return CustomScrollView(
       slivers: [
@@ -1441,9 +1482,9 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                             onChanged: (TypeYesOrNo? value) {
                               setState(() {
                                 _typeYesOrNo = value!;
-                                _textanswerSended2 =
+                                _textanswerSended1 =
                                     value.toString().split('.').last;
-                                log(_textanswerSended2);
+                                log(_textanswerSended1);
                               });
                             },
                           ),
@@ -1462,9 +1503,9 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                             onChanged: (TypeYesOrNo? value) {
                               setState(() {
                                 _typeYesOrNo = value!;
-                                _textanswerSended2 =
+                                _textanswerSended1 =
                                     value.toString().split('.').last;
-                                log(_textanswerSended2);
+                                log(_textanswerSended1);
                               });
                             },
                           ),
@@ -1480,171 +1521,180 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                 ),
                 Column(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).size.width * 0.1),
-                      child: Text("Dominio y Rango",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(color: Colors.black)),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.1,
+                              bottom: MediaQuery.of(context).size.width * 0.1),
+                          child: Text("Dominio : ",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(color: Colors.black)),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).size.width * 0.1),
+                            child: TextButton(
+                              onPressed: () {
+                                if (domAngle1 == "openAngle") {
+                                  setState(() {
+                                    domAngle1 = "closedAngle";
+                                  });
+                                } else {
+                                  setState(() {
+                                    domAngle1 = "openAngle";
+                                  });
+                                }
+                              },
+                              child: Text(
+                                  (domAngle1 == "openAngle") ? " (" : " [",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineLarge!
+                                      .copyWith(color: Colors.black)),
+                            )),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.15,
+                          height: MediaQuery.of(context).size.width * 0.25,
+                          child: MathField(
+                            keyboardType: MathKeyboardType.expression,
+                            variables: const ['x', "\u221E", "R", ","],
+                            decoration: InputDecoration(
+                                labelStyle: Theme.of(context)
+                                    .textTheme
+                                    .headlineLarge!
+                                    .copyWith(color: Colors.black)),
+                            onSubmitted: (value) {
+                              setState(() {
+                                if (value.isNotEmpty) {
+                                  _textanswerSended2 = domAngle1
+                                          .replaceAll(r'openAngle', "(")
+                                          .replaceAll(r'closedAngle', "[") +
+                                      value.replaceAll(RegExp(r'[{}]+'), '') +
+                                      domAnlge2
+                                          .replaceAll(r'openAngle', ")")
+                                          .replaceAll(r'closedAngle', "]");
+                                  log(_textanswerSended2);
+                                }
+                              });
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).size.width * 0.1),
+                          child: TextButton(
+                            onPressed: () {
+                              if (domAnlge2 == "openAngle") {
+                                setState(() {
+                                  domAnlge2 = "closedAngle";
+                                });
+                              } else {
+                                setState(() {
+                                  domAnlge2 = "openAngle";
+                                });
+                              }
+                            },
+                            child: Text(
+                                (domAnlge2 == "openAngle") ? " )" : " ]",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineLarge!
+                                    .copyWith(color: Colors.black)),
+                          ),
+                        ),
+                      ],
                     ),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context).size.width *
-                                        0.1),
-                                child: TextButton(
-                                  onPressed: () {
-                                    if (_textanswerSended1 == "openAngle") {
-                                      setState(() {
-                                        _textanswerSended1 = "closedAngle";
-                                      });
-                                    } else {
-                                      setState(() {
-                                        _textanswerSended1 = "openAngle";
-                                      });
-                                    }
-                                  },
-                                  child: Text(
-                                      (_textanswerSended1 == "openAngle")
-                                          ? " ("
-                                          : " [",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineLarge!
-                                          .copyWith(color: Colors.black)),
-                                )),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.15,
-                              height: MediaQuery.of(context).size.width * 0.25,
-                              child: MathField(
-                                keyboardType: MathKeyboardType.expression,
-                                variables: const ['x'],
-                                decoration: InputDecoration(
-                                    labelStyle: Theme.of(context)
-                                        .textTheme
-                                        .headlineLarge!
-                                        .copyWith(color: Colors.black)),
-                                onSubmitted: (value) {
-                                  setState(() {
-                                    if (value.isNotEmpty) {
-                                      _textanswerSended4 = value;
-                                      log(value);
-                                    }
-                                  });
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).size.width * 0.1),
-                              child: TextButton(
-                                onPressed: () {
-                                  if (_textanswerSended2 == "openAngle") {
-                                    setState(() {
-                                      _textanswerSended2 = "closedAngle";
-                                    });
-                                  } else {
-                                    setState(() {
-                                      _textanswerSended2 = "openAngle";
-                                    });
-                                  }
-                                },
-                                child: Text(
-                                    (_textanswerSended2 == "openAngle")
-                                        ? " )"
-                                        : " ]",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineLarge!
-                                        .copyWith(color: Colors.black)),
-                              ),
-                            ),
-                          ],
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.1,
+                              bottom: MediaQuery.of(context).size.width * 0.1),
+                          child: Text("Rango : ",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(color: Colors.black)),
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).size.width * 0.1),
-                              child: TextButton(
-                                onPressed: () {
-                                  if (_textanswerSended3 == "openAngle") {
-                                    setState(() {
-                                      _textanswerSended3 = "closedAngle";
-                                    });
-                                  } else {
-                                    setState(() {
-                                      _textanswerSended3 = "openAngle";
-                                    });
-                                  }
-                                },
-                                child: Text(
-                                    (_textanswerSended3 == "openAngle")
-                                        ? " ("
-                                        : " [",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineLarge!
-                                        .copyWith(color: Colors.black)),
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.15,
-                              height: MediaQuery.of(context).size.width * 0.25,
-                              child: MathField(
-                                keyboardType: MathKeyboardType.expression,
-                                variables: const ['x'],
-                                decoration: InputDecoration(
-                                    labelStyle: Theme.of(context)
-                                        .textTheme
-                                        .headlineLarge!
-                                        .copyWith(color: Colors.black)),
-                                onSubmitted: (value) {
-                                  setState(() {
-                                    if (value.isNotEmpty) {
-                                      _textanswerSended4 = value;
-                                      log(value);
-                                    }
-                                  });
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).size.width * 0.1),
-                              child: TextButton(
-                                onPressed: () {
-                                  if (_textanswerSended4 == "openAngle") {
-                                    setState(() {
-                                      _textanswerSended4 = "closedAngle";
-                                    });
-                                  } else {
-                                    setState(() {
-                                      _textanswerSended4 = "openAngle";
-                                    });
-                                  }
-                                },
-                                child: Text(
-                                    (_textanswerSended4 == "openAngle")
-                                        ? " )"
-                                        : " ]",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineLarge!
-                                        .copyWith(color: Colors.black)),
-                              ),
-                            ),
-                          ],
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).size.width * 0.1),
+                          child: TextButton(
+                            onPressed: () {
+                              if (ranAngle1 == "openAngle") {
+                                setState(() {
+                                  ranAngle1 = "closedAngle";
+                                });
+                              } else {
+                                setState(() {
+                                  ranAngle1 = "openAngle";
+                                });
+                              }
+                            },
+                            child: Text(
+                                (ranAngle1 == "openAngle") ? " (" : " [",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineLarge!
+                                    .copyWith(color: Colors.black)),
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.15,
+                          height: MediaQuery.of(context).size.width * 0.25,
+                          child: MathField(
+                            keyboardType: MathKeyboardType.expression,
+                            variables: const ['x', "\u221E", "R", ","],
+                            decoration: InputDecoration(
+                                labelStyle: Theme.of(context)
+                                    .textTheme
+                                    .headlineLarge!
+                                    .copyWith(color: Colors.black)),
+                            onSubmitted: (value) {
+                              setState(() {
+                                if (value.isNotEmpty) {
+                                  _textanswerSended3 = ranAngle1
+                                          .replaceAll(r'openAngle', "(")
+                                          .replaceAll(r'closedAngle', "[") +
+                                      value.replaceAll(RegExp(r'[{}]+'), '') +
+                                      ranAnlge2
+                                          .replaceAll(r'openAngle', ")")
+                                          .replaceAll(r'closedAngle', "]");
+
+                                  log(_textanswerSended3);
+                                }
+                              });
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).size.width * 0.1),
+                          child: TextButton(
+                            onPressed: () {
+                              if (ranAnlge2 == "openAngle") {
+                                setState(() {
+                                  ranAnlge2 = "closedAngle";
+                                });
+                              } else {
+                                setState(() {
+                                  ranAnlge2 = "openAngle";
+                                });
+                              }
+                            },
+                            child: Text(
+                                (ranAnlge2 == "openAngle") ? " )" : " ]",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineLarge!
+                                    .copyWith(color: Colors.black)),
+                          ),
                         ),
                       ],
                     ),
@@ -1838,7 +1888,6 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                                 ((1 - (touchY / chartHeight)) * (maxY - minY)) +
                                     minY;
 
-                            log(" Touch en X ${event.localPosition!.translate(convertedX, convertedY)}, Touch en Y ${convertedY}");
                             final List<FlSpot> data = [
                               FlSpot(convertedX.ceilToDouble(),
                                   convertedY.ceilToDouble()),
@@ -1857,6 +1906,12 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                               });
                             }
                             if (_data2P.isNotEmpty && _data3P.isNotEmpty) {
+                              _textanswerSended1 =
+                                  "(${_data2P.first.x.toInt()},${_data2P.first.y.toInt()})";
+                              _textanswerSended2 =
+                                  "(${_data3P.first.x.toInt()},${_data3P.first.y.toInt()})";
+                              log(_textanswerSended1);
+                              log(_textanswerSended2);
                               _data3Pf = [
                                 FlSpot(_data2P.first.x, _data2P.first.y),
                                 FlSpot(_data3P.first.x, _data3P.first.y),
@@ -2013,7 +2068,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
   List<FlSpot> _data7P = [];
 
   String orderedPair = "";
-
+  int cont = 0;
   late double mostLeftSpot = 0.0;
   Widget vennEquations(int index, List<UnitQuestion> questions) {
     return CustomScrollView(
@@ -2022,6 +2077,49 @@ class _ProblemWidgetState extends State<ProblemWidget> {
         SliverToBoxAdapter(
           child: Column(
             children: [
+              SizedBox(
+                height: 200,
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: TeXView(
+                    renderingEngine: const TeXViewRenderingEngine.mathjax(),
+                    onRenderFinished: (height) {
+                      log(height.toString());
+                    },
+                    child: TeXViewColumn(children: [
+                      TeXViewInkWell(
+                          child: const TeXViewDocument(
+                              r""" <h2>\(f(x) = {2x+1}\)</h2>""",
+                              style: TeXViewStyle(
+                                  textAlign: TeXViewTextAlign.center)),
+                          style: _teXViewStyle,
+                          id: "inkwell_1",
+                          rippleEffect: true,
+                          onTap: tapCallbackHandler),
+                    ]),
+                    style: const TeXViewStyle(
+                      margin: TeXViewMargin.all(5),
+                      padding: TeXViewPadding.all(10),
+                      borderRadius: TeXViewBorderRadius.all(10),
+                      border: TeXViewBorder.all(
+                        TeXViewBorderDecoration(
+                            borderColor: Colors.blue,
+                            borderStyle: TeXViewBorderStyle.solid,
+                            borderWidth: 5),
+                      ),
+                      backgroundColor: Colors.white,
+                    ),
+                    loadingWidgetBuilder: (context) => const Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              CircularProgressIndicator(),
+                              Text("Rendering...")
+                            ],
+                          ),
+                        )),
+              ),
               Column(
                 children: [
                   SizedBox(
@@ -2166,6 +2264,10 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                                         .split(",")[1]
                                         .split(")")[0])!) {
                                   if (!orderedPairs.contains(orderedPair)) {
+                                    cont++;
+
+                                    _textanswerSended1 = cont.toString();
+                                    log(_textanswerSended1);
                                     setState(() {
                                       orderedPairs.add(orderedPair);
 
@@ -2368,6 +2470,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
   }
 
   Widget domainAndRange(int index, List<UnitQuestion> questions) {
+    buildGraph("\\sqrt{x}");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -2448,86 +2551,78 @@ class _ProblemWidgetState extends State<ProblemWidget> {
   ///
 
   _questionsWidget(int index, List<UnitQuestion> questions) {
-    return Column(children: [
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: viewNumberOfQuetion(questions[_cc].titleQuestion),
-      ),
-      Padding(
-        padding: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width * 0.1,
-            top: MediaQuery.of(context).size.height * 0.1),
-        child: Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  _answerSended1 = true;
-                  _textanswerSended1 = "1";
-                });
-              },
-              child: Card(
-                color: (_answerSended1 || _textanswerSended1 == "1")
-                    ? Theme.of(context).primaryColorLight
-                    : Theme.of(context).indicatorColor,
-                child: productCard(questions, index * 4),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  _answerSended2 = true;
-                  _textanswerSended2 = "1";
-                });
-              },
-              child: Card(
-                color: (_answerSended2 || _textanswerSended2 == "1")
-                    ? Theme.of(context).primaryColorLight
-                    : Theme.of(context).indicatorColor,
-                child: productCard(questions, index * 4 + 1),
-              ),
-            ),
-          ],
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: Column(children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: viewNumberOfQuetion(questions[_cc].titleQuestion),
         ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width * 0.1,
-            top: MediaQuery.of(context).size.height * 0.01),
-        child: Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  _answerSended3 = true;
-                  _textanswerSended3 = "1";
-                });
-              },
-              child: Card(
-                color: (_answerSended3 || _textanswerSended3 == "1")
-                    ? Theme.of(context).primaryColorLight
-                    : Theme.of(context).indicatorColor,
-                child: productCard(questions, index * 4 + 2),
+        Padding(
+          padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width * 0.05,
+              top: MediaQuery.of(context).size.height * 0.05),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _answerSended1 = true;
+                    _textanswerSended1 = "1";
+                  });
+                },
+                child: Card(
+                  child: productCard(questions, index),
+                ),
               ),
-            ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  _answerSended4 = true;
-                  _textanswerSended4 = "1";
-                });
-              },
-              child: Card(
-                color: (_answerSended4 || _textanswerSended4 == "1")
-                    ? Theme.of(context).primaryColorLight
-                    : Theme.of(context).indicatorColor,
-                child: productCard(questions, index * 4 + 3),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _answerSended2 = true;
+                    _textanswerSended2 = "1";
+                  });
+                },
+                child: Card(
+                  child: productCard(questions, index),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    ]);
+        Padding(
+          padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width * 0.1,
+              top: MediaQuery.of(context).size.height * 0.1),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _answerSended3 = true;
+                    _textanswerSended3 = "1";
+                  });
+                },
+                child: Card(
+                  child: productCard(questions, index),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _answerSended4 = true;
+                    _textanswerSended4 = "1";
+                  });
+                },
+                child: Card(
+                  child: productCard(questions, index),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]),
+    );
   }
 
   void restartQuestion(List<UnitQuestion> data) {
@@ -2536,11 +2631,18 @@ class _ProblemWidgetState extends State<ProblemWidget> {
     _manyOption = 3;
 
     score = 0;
+    _isToolKitUpPanelPanel = true;
+    _isToolKitDownPanelPanel = true;
     _isShowingFeedback = true;
     _answerSended1 = false;
     _answerSended2 = false;
     _answerSended3 = false;
     _answerSended4 = false;
+
+    _textanswerSended1 = "";
+    _textanswerSended2 = "";
+    _textanswerSended3 = "";
+    _textanswerSended4 = "";
 
     _equationX = "";
     _equationY = "";
@@ -2567,6 +2669,8 @@ class _ProblemWidgetState extends State<ProblemWidget> {
   }
 
   void sendAnswer(List<UnitQuestion> data, int index) {
+    log("se responde $_textanswerSended1 ,  $_textanswerSended2 ,  $_textanswerSended3 ,  $_textanswerSended4");
+    log("se pregunta ${data[_cc].option[0].answerOption} ,  ${data[_cc].option[1].answerOption} ,  ${data[_cc].option[2].answerOption} ,  ${data[_cc].option[3].answerOption}");
     _controller.pause();
     _counter = 31;
     if (_manyOption > 0) {
@@ -2574,14 +2678,15 @@ class _ProblemWidgetState extends State<ProblemWidget> {
           data[_cc].option[1].answerOption == _textanswerSended2 &&
           data[_cc].option[2].answerOption == _textanswerSended3 &&
           data[_cc].option[3].answerOption == _textanswerSended4) {
-        _manyOption = _manyOption - 3;
         log("Se pulsado el boton $index");
         setState(() {
           _answerSended1 = data[_cc].option[0].isTheCorrectOption;
           _answerSended2 = data[_cc].option[1].isTheCorrectOption;
           _answerSended3 = data[_cc].option[2].isTheCorrectOption;
           _answerSended4 = data[_cc].option[3].isTheCorrectOption;
-          scoreShow = scoreShow + score;
+
+          scoreShow = scoreShow + _manyOption;
+          _manyOption = _manyOption - 3;
           showCorrectAnswerWithMessage(context, "");
           restartQuestion(data);
         });
@@ -2616,14 +2721,14 @@ class _ProblemWidgetState extends State<ProblemWidget> {
               _counter = 31;
               if (_manyOption > 0) {
                 if (data[_cc].option[index].isTheCorrectOption) {
-                  _manyOption = _manyOption - 3;
                   log("Se pulsado el boton $index");
                   setState(() {
                     _answerSended1 = data[_cc].option[0].isTheCorrectOption;
                     _answerSended2 = data[_cc].option[1].isTheCorrectOption;
                     _answerSended3 = data[_cc].option[2].isTheCorrectOption;
                     _answerSended4 = data[_cc].option[3].isTheCorrectOption;
-                    scoreShow = scoreShow + score;
+                    scoreShow = scoreShow + _manyOption;
+                    _manyOption = _manyOption - 3;
                     restartQuestion(data);
                     showCorrectAnswerWithMessage(context, "");
                   });
@@ -2650,11 +2755,9 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                 }
               }
             },
-            child: Column(
-              children: [
-                productCardWidget(data, index),
-              ],
-            ),
+            child: Column(children: [
+              productCardWidget(data[_cc].option),
+            ]),
           )
         : const Padding(
             padding: EdgeInsets.all(0),
@@ -2662,6 +2765,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
   }
 
   bodyEndQuestion() {
+    double scorefinal = (3 * scoreShow) / (totalQuestion * 3);
     return Stack(
       children: [
         Padding(
@@ -2682,9 +2786,20 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                             textAlign: TextAlign.center),
                         Text("$scoreShow",
                             style: Theme.of(context).textTheme.headline3,
-                            textAlign: TextAlign.center)
+                            textAlign: TextAlign.center),
+                        SizedBox(height: 20),
+                        RatingBarIndicator(
+                          rating: scorefinal,
+                          itemBuilder: (context, index) => Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          itemCount: 3,
+                          itemSize: 50.0,
+                          direction: Axis.horizontal,
+                        ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -2767,7 +2882,9 @@ class _ProblemWidgetState extends State<ProblemWidget> {
     );
   }
 
-  Widget productCardWidget(List<UnitQuestion> data, int index) {
+  int index = -1;
+  Widget productCardWidget(List<Option> data) {
+    index++;
     return index < data.length
         ? SizedBox(
             width: MediaQuery.of(context).size.width * 0.38,
@@ -2782,14 +2899,14 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                     height: 60,
                     width: 60,
                     child: Text((index == 0)
-                        ? data[_cc].option[0].answerOption
+                        ? data[0].answerOption
                         : (index == 1)
-                            ? data[_cc].option[1].answerOption
+                            ? data[1].answerOption
                             : (index == 2)
-                                ? data[_cc].option[2].answerOption
+                                ? data[2].answerOption
                                 : (index == 3)
-                                    ? data[_cc].option[3].answerOption
-                                    : data[_cc].option[0].answerOption),
+                                    ? data[3].answerOption
+                                    : data[0].answerOption),
                   ),
                 ],
               ),

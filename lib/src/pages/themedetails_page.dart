@@ -65,11 +65,6 @@ class ThemeDetailsScreenState extends State<ThemeDetailsScreen> {
             SliverToBoxAdapter(
                 child:
                     QuestionPage(questions: unitBook.unitQuestion, type: "")),
-            SliverToBoxAdapter(
-                child: QuestionPage(
-              questions: unitBook.unitQuestion,
-              type: "lesson",
-            )),
           ],
         ),
       ],

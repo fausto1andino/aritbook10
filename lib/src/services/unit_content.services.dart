@@ -66,7 +66,7 @@ class UnitContent {
           UnitQuestion unitQuestion = UnitQuestion(
               idQuestion: dataQuestions["idQuestion"],
               titleQuestion: dataQuestions["titleQuestion"],
-              feedBackTextQuestion: dataQuestions["feedBackQuestion"],
+              feedBackQuestion: dataQuestions["feedBackQuestion"],
               urlImageOrVideoQuestion: dataQuestions["urlImageOrVideoQuestion"],
               option: options);
           unitQuestions.add(unitQuestion);
