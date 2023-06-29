@@ -1,8 +1,8 @@
 import 'dart:developer';
 
-import 'package:aritbook10/src/pages/question_page.dart';
-import 'package:aritbook10/src/widgets/TheneDetails/topicdeatail.dart';
-import 'package:aritbook10/src/widgets/TheneDetails/topicexample.dart';
+import 'package:EspeMath/src/pages/question_page.dart';
+import 'package:EspeMath/src/widgets/TheneDetails/topicdeatail.dart';
+import 'package:EspeMath/src/widgets/TheneDetails/topicexample.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 

@@ -72,6 +72,6 @@ class DefaultFirebaseOptions {
     storageBucket: 'matbook-93511.appspot.com',
     iosClientId:
         '385796186485-krclp969npc0dpq5h1gafu6n9h02959d.apps.googleusercontent.com',
-    iosBundleId: 'com.example.aritbook10',
+    iosBundleId: 'com.example.EspeMath',
   );
 }

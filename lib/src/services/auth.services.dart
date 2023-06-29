@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:aritbook10/src/services/shared_prefs.services.dart';
-import 'package:aritbook10/src/services/user.services.dart';
+import 'package:EspeMath/src/services/shared_prefs.services.dart';
+import 'package:EspeMath/src/services/user.services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -299,5 +299,4 @@ class AuthServices {
       return false;
     }
   }
-
 }

@@ -1,8 +1,8 @@
-import 'package:aritbook10/src/common/Themes/data_theme.dart';
-import 'package:aritbook10/src/core/Provider/main_provider.dart';
-import 'package:aritbook10/src/pages/login_page.dart';
-import 'package:aritbook10/src/widgets/TheneDetails/ProblemsTrivia/problemwidget.dart';
-import 'package:aritbook10/src/widgets/TheneDetails/questionswidget.dart';
+import 'package:EspeMath/src/common/Themes/data_theme.dart';
+import 'package:EspeMath/src/core/Provider/main_provider.dart';
+import 'package:EspeMath/src/pages/login_page.dart';
+import 'package:EspeMath/src/widgets/TheneDetails/ProblemsTrivia/problemwidget.dart';
+import 'package:EspeMath/src/widgets/TheneDetails/questionswidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -21,7 +21,6 @@ void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (value) {
       runApp(
-        
         MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (_) => MainProvider()),
@@ -45,12 +44,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    
     final mainProviderSave = Provider.of<MainProvider>(context, listen: false);
     return MaterialApp(
-      
       debugShowCheckedModeBanner: false,
-      title: 'AritBook10',
+      title: 'EspeMath',
       routes: {
         'detailsTheme': (_) => const ThemeDetailsScreen(),
         'questionWidget': (_) => const QuestionWidget(),
@@ -78,7 +75,7 @@ class _MyAppState extends State<MyApp> {
             }
 
             return (snapshot.data != "")
-                ? const MyHomePage(title: 'AritBook10')
+                ? const MyHomePage(title: 'EspeMath')
                 : const LoginPage();
           }),
     );

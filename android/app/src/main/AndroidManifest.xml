@@ -1,10 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.aritbook10">
+    package="com.example.EspeMath">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" /> 
    <application
-        android:label="aritbook10"
+        android:label="EspeMath"
         android:name="${applicationName}"
                android:usesCleartextTraffic="true"
         android:icon="@mipmap/launcher_icon">
