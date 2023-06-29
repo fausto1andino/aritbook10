@@ -1,4 +1,4 @@
-name: aritbook10
+name: EspeMath
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -36,8 +36,27 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_plot: ^0.1.0
-  fl_chart: ^0.62.0
+  spot: ^0.3.1
   math_expressions: ^2.4.0
+  provider: ^6.0.5
+  shared_preferences: ^2.1.1
+  rxdart: ^0.27.7
+  flutter_card_swipper: ^0.4.0
+  sliding_up_panel: ^2.0.0+1
+  circular_countdown_timer: ^0.2.3
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.3.1
+  firebase_core: ^2.13.1
+  firebase_auth: ^4.6.2
+  sign_in_button: ^3.2.0
+  google_sign_in: ^6.1.3
+  cloud_firestore: ^4.8.0
+  fluttertoast: ^8.2.2
+  fl_chart: ^0.63.0
+  flutter_tex: ^4.0.3+4
+  math_keyboard: ^0.2.0
+  flutter_rating_bar: ^4.0.1
+  video_player: ^2.6.1
 
 dev_dependencies:
   flutter_test:
@@ -62,8 +81,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -77,12 +96,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+fonts:
+    - family: ComputerModernSansSerifOblique
+      fonts:
+        - asset: fonts/cmu.sans-serif-oblique.ttf
+  #      
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
@@ -91,3 +109,24 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/LogoAritbook.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+
+lutter_native_splash:
+  # This package generates native code to customize Flutter's default white native splash screen
+  # with background color and splash image.
+  # Customize the parameters below, and run the following command in the terminal:
+  # dart run flutter_native_splash:create
+  # To restore Flutter's default white splash screen, run the following command in the terminal:
+  # dart run flutter_native_splash:remove
+
+  # color or background_image is the only required parameter.  Use color to set the background
+  # of your splash screen to a solid color.  Use background_image to set the background of your
+  # splash screen to a png image.  This is useful for gradients. The image will be stretch to the
+  # size of the app. Only one parameter can be used, color and background_image cannot both be set.
+  color: "#42a5f5"
+  background_image: "assets/images/LogoAritbook.png"

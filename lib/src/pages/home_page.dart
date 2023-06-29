@@ -1,8 +1,9 @@
-import 'dart:math';
-
-import 'package:fl_chart/fl_chart.dart';
+import 'package:EspeMath/src/models/UnitModel/unit_model.dart';
+import 'package:EspeMath/src/services/unit_content.services.dart';
 import 'package:flutter/material.dart';
-import 'package:math_expressions/math_expressions.dart';
+import 'dart:developer' as dev;
+import '../services/auth.services.dart';
+import '../widgets/ThemeSwipper.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -10,123 +11,106 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String? _equation;
-  List<FlSpot> _data = [];
-
-  void _generateLineData() {
-    if (_equation == null) {
-      return;
-    }
-    final RegExp regex = RegExp(r'^y\s*=\s*(-?\d+)\s*x\s*\+\s*(-?\d+)$');
-    final Match? match = regex.firstMatch(_equation!);
-    if (match == null) {
-      return;
-    }
-    final double slope = double.parse(match.group(1)!);
-    final double yIntercept = double.parse(match.group(2)!);
-
-    final List<FlSpot> data = [];
-    for (double x = -10; x <= 10; x++) {
-      final double y = slope * x + yIntercept;
-      if (y >= -10 && y <= 10) {
-        data.add(FlSpot(x, y));
-      }
-    }
-
-    setState(() {
-      _data = data;
-    });
+  late List<UnitBook> unitOneBook = [];
+  bool data_loading = true;
+  @override
+  void initState() {
+    // TODO: implement initState
+    getContent();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: TextField(
-            decoration: InputDecoration(
-              labelText: 'Ingrese una ecuación de la forma "y = mx + b"',
-              border: OutlineInputBorder(),
-            ),
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.done,
-            onSubmitted: (value) {
-              setState(() {
-                _equation = value.trim();
-                _generateLineData();
-              });
-            },
-          ),
+        appBar: AppBar(
+          title: Text(widget.title),
         ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: LineChart(
-              LineChartData(
-                maxX: 10,
-                minX: -10,
-                maxY: 10,
-                minY: -10,
-                lineTouchData: LineTouchData(enabled: false),
-                gridData: FlGridData(
-                  show: true,
-                  getDrawingHorizontalLine: (value) {
-                    if (value == 0) {
-                      return FlLine(
-                        color: Colors.red,
-                        strokeWidth: 2.0,
-                      );
-                    } else {
-                      return FlLine(
-                        color: Colors.grey,
-                        strokeWidth: 0.5,
-                      );
-                    }
-                  },
-                  getDrawingVerticalLine: (value) {
-                    if (value == 0) {
-                      return FlLine(
-                        color: Colors.red,
-                        strokeWidth: 2.0,
-                      );
-                    } else {
-                      return FlLine(
-                        color: Colors.grey,
-                        strokeWidth: 0.5,
-                      );
-                    }
-                  },
+        body: data_loading
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ThemeSwipper(
+                      unitBooks: unitOneBook,
+                    ),
+                    Column(
+                      children: [
+                        const SizedBox(
+                          height: 100,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.redAccent,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: IconButton(
+                            tooltip: "Cerrar sesión",
+                            onPressed: () {
+                              logOut();
+                            },
+                            icon: const Icon(Icons.logout_outlined),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Cerrar sesión",
+                            style: TextStyle(color: Colors.red)),
+                        const SizedBox(
+                          height: 60,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: IconButton(
+                            tooltip: "Datos",
+                            onPressed: () {
+                              getContent();
+                            },
+                            icon: const Icon(Icons.dataset),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Nuevas clases?",
+                            style: TextStyle(color: Colors.blue)),
+                        const SizedBox(
+                          height: 100,
+                        ),
+                      ],
+                    )
+                  ],
                 ),
-                borderData: FlBorderData(
-                  show: true,
-                  border: const Border(
-                    bottom: BorderSide(color: Colors.grey, width: 0.5),
-                    left: BorderSide(color: Colors.grey, width: 0.5),
-                    right: BorderSide(color: Colors.transparent),
-                    top: BorderSide(color: Colors.transparent),
-                  ),
-                ),
-                lineBarsData: [
-                  LineChartBarData(
-                    spots: _data,
-                    isCurved: false,
-                    color: Colors.blue,
-                    barWidth: 2.0,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ]),
-    );
+              ));
+  }
+
+  getContent() async {
+    UnitContent unitContent = UnitContent();
+    dev.log("HOMESCREEN");
+    unitOneBook.clear();
+
+    List<UnitBook>? data = await unitContent.getContent();
+
+    for (var item in data!) {
+      unitOneBook.add(item);
+    }
+
+    setState(() {
+      data_loading = false;
+    });
+  }
+
+  logOut() {
+    AuthServices authServices = AuthServices();
+    dev.log("LOGOUT");
+    authServices.signOut(context);
   }
 }

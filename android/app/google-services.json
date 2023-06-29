@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "385796186485",
+    "project_id": "matbook-93511",
+    "storage_bucket": "matbook-93511.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:385796186485:android:82cfbfed6a3ff07f9db33c",
+        "android_client_info": {
+          "package_name": "com.example.EspeMath"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "385796186485-0pg50lmk7t7o1jnk02hrrqvoif72er3k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASF-2-vcXOVoEiUL7_0QuXVCZBkICSlKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "385796186485-0pg50lmk7t7o1jnk02hrrqvoif72er3k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
