@@ -2734,6 +2734,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
 
   bodyEndQuestion() {
     double scorefinal = (3 * scoreShow) / (totalQuestion * 3);
+    double scorefinalshow = (10 * scoreShow) / (totalQuestion * 3);
     return Stack(
       children: [
         Padding(
@@ -2752,7 +2753,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                         Text("\n Nota Final \n",
                             style: Theme.of(context).textTheme.headline5,
                             textAlign: TextAlign.center),
-                        Text("$scoreShow",
+                        Text("${scorefinalshow.round()}",
                             style: Theme.of(context).textTheme.headline3,
                             textAlign: TextAlign.center),
                         SizedBox(height: 20),
@@ -2786,7 +2787,6 @@ class _ProblemWidgetState extends State<ProblemWidget> {
           child: OutlinedButton(
               onPressed: (() {
                 setState(() {
-                  
                   score = 0;
                   _cc = 0;
                   scoreShow = 0;
