@@ -11,12 +11,12 @@ class TopicDetail extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Container(
       padding: EdgeInsets.symmetric(
-          horizontal: size.width * 0.1, vertical: size.height * 0.05),
-      child: Text(
+          horizontal: size.width * 0.1, vertical: size.height * 0.025),
+      /*child: Text(
         unitBook.unitSubject.first.topic.first.titleTopic,
         textAlign: TextAlign.justify,
         style: Theme.of(context).textTheme.titleLarge,
-      ),
+      ),*/
     );
   }
 }

@@ -44,12 +44,15 @@ class _SlidingUpPanelHomePageWidgetState
             isOpenOrderPanel = false;
           });
         },
+         
         controller: widget.panelOrderPanelController,
         maxHeight: MediaQuery.of(context).size.height,
         minHeight: (screenMediaQuerySldgUpPOPrs.height > 600)
             ? MediaQuery.of(context).size.height * 0.06
             : screenMediaQuerySldgUpPOPrs.height * 0.07,
         header: Container(
+          padding:
+              EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.01),
           width: MediaQuery.of(context).size.width,
           color: Theme.of(context).primaryColor,
           child: Row(

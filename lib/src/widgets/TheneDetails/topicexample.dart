@@ -12,7 +12,7 @@ class TopicExample extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: const EdgeInsets.only(left: 10, right: 35, bottom: 10),
           child: Text(
             unitBookSubject.titleSubject,
             textAlign: TextAlign.justify,
@@ -22,19 +22,40 @@ class TopicExample extends StatelessWidget {
         Column(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              padding: const EdgeInsets.only(left: 10, right: 35, bottom: 10),
               child: Text(
                 unitBookSubject.descriptionSubject,
                 textAlign: TextAlign.justify,
-                style: Theme.of(context).textTheme.titleSmall,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
             ),
           ],
         ),
-        SizedBox(
-          height: size.height * 0.9,
-          width: size.width * 0.9,
-          child: CustomScrollView(
+        Column(
+            //List of images of the topic
+            children: [
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                itemCount: unitBookSubject.topic.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: FadeInImage(
+                      placeholder:
+                          const AssetImage('assets/images/no-image.jpg'),
+                      image: unitBookSubject.topic[index].urlImageTopic != ''
+                          ? NetworkImage(
+                              unitBookSubject.topic[index].urlImageTopic)
+                          : NetworkImage('assets/images/LogoAritbook.png'),
+                      height: size.height * 0.3,
+                    ),
+                  );
+                },
+              ),
+            ]
+            /* child: CustomScrollView(
             slivers: [
               SliverList(
                 delegate: SliverChildBuilderDelegate(
@@ -54,7 +75,8 @@ class TopicExample extends StatelessWidget {
               ),
             ],
           ),
-        ),
+       */
+            ),
       ],
     );
   }
