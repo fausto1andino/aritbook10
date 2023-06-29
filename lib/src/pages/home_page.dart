@@ -31,36 +31,59 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
         ),
         body: data_loading
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
                 child: Column(
                   children: [
                     ThemeSwipper(
                       unitBooks: unitOneBook,
                     ),
-                    Stack(
+                    Column(
                       children: [
+                        const SizedBox(
+                          height: 100,
+                        ),
                         Container(
-                          height: 200,
-                          width: 200,
+                          decoration: BoxDecoration(
+                            color: Colors.redAccent,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                           child: IconButton(
                             tooltip: "Cerrar sesión",
                             onPressed: () {
                               logOut();
                             },
-                            icon: Icon(Icons.logout_outlined),
+                            icon: const Icon(Icons.logout_outlined),
                           ),
                         ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Cerrar sesión",
+                            style: TextStyle(color: Colors.red)),
+                        const SizedBox(
+                          height: 60,
+                        ),
                         Container(
-                          height: 100,
-                          width: 200,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                           child: IconButton(
                             tooltip: "Datos",
                             onPressed: () {
                               getContent();
                             },
-                            icon: Icon(Icons.dataset),
+                            icon: const Icon(Icons.dataset),
                           ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Nuevas clases?",
+                            style: TextStyle(color: Colors.blue)),
+                        const SizedBox(
+                          height: 100,
                         ),
                       ],
                     )
