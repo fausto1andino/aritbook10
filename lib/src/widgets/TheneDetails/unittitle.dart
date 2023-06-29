@@ -21,14 +21,10 @@ class UnitTittle extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("",
+                Text(unitBook.idUnitBook,
                     style: textTheme.headline5,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2),
-                Text('Tema: Funcion Lineal',
-                    style: textTheme.headline6,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(

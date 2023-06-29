@@ -42,16 +42,52 @@ class TopicExample extends StatelessWidget {
                 scrollDirection: Axis.vertical,
                 itemCount: unitBookSubject.topic.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: FadeInImage(
-                      placeholder:
-                          const AssetImage('assets/images/no-image.jpg'),
-                      image: unitBookSubject.topic[index].urlImageTopic != ''
-                          ? NetworkImage(
-                              unitBookSubject.topic[index].urlImageTopic)
-                          : NetworkImage('assets/images/LogoAritbook.png'),
-                      height: size.height * 0.3,
+                  return GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            contentPadding: EdgeInsets.zero,
+                            content: SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              child: InteractiveViewer(
+                                boundaryMargin: EdgeInsets.all(0),
+                                minScale: 0.1,
+                                maxScale: 5.0,
+                                child: FadeInImage(
+                                  placeholder: const AssetImage(
+                                      'assets/images/no-image.jpg'),
+                                  image: unitBookSubject
+                                              .topic[index].urlImageTopic !=
+                                          ''
+                                      ? NetworkImage(unitBookSubject
+                                          .topic[index].urlImageTopic)
+                                      : NetworkImage(
+                                          'assets/images/LogoAritbook.png'),
+                                  height: size.height * 0.3,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Card(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: FadeInImage(
+                          placeholder:
+                              const AssetImage('assets/images/no-image.jpg'),
+                          image: unitBookSubject.topic[index].urlImageTopic !=
+                                  ''
+                              ? NetworkImage(
+                                  unitBookSubject.topic[index].urlImageTopic)
+                              : NetworkImage('assets/images/LogoAritbook.png'),
+                          height: size.height * 0.3,
+                        ),
+                      ),
                     ),
                   );
                 },
