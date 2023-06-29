@@ -25,7 +25,7 @@ class UnitTittle extends StatelessWidget {
                     style: textTheme.headline5,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2),
-                Text('Temas: ' '${unitBook.unitSubject.length}',
+                Text('Tema: Funcion Lineal',
                     style: textTheme.headline6,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1),

@@ -8,6 +8,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:math_keyboard/math_keyboard.dart';
+import 'package:video_player/video_player.dart';
 import '../../../models/UnitModel/unitoption_model.dart';
 import '../../../models/UnitModel/unitquestion_model.dart';
 import '../../../pages/home_page.dart';
@@ -72,6 +73,7 @@ double _equation2P2Y = 8;
 
 TypeAnbsisa _typeAnbsisa = TypeAnbsisa.point1;
 TypeYesOrNo _typeYesOrNo = TypeYesOrNo.si;
+late VideoPlayerController videoController;
 
 class _ProblemWidgetState extends State<ProblemWidget> {
   @override
@@ -79,15 +81,16 @@ class _ProblemWidgetState extends State<ProblemWidget> {
     super.initState();
 
     _controller = CountDownController();
+    videoController = VideoPlayerController.network(
+      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    )..initialize().then((_) {
+        setState(() {});
+      });
     scoreShow = 0;
-
-    // if you want to use context from globally instead of content we need to pass navigatorKey.currentContext!
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     score = 0;
     scoreShow = 0;
     _cc = 0;
@@ -98,6 +101,8 @@ class _ProblemWidgetState extends State<ProblemWidget> {
     _answerSended4 = false;
     _isShowingFeedback = false;
     _manyOption = 3;
+    videoController.dispose();
+    super.dispose();
   }
 
   @override
@@ -192,7 +197,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                       ],
                     )
                   : (_isShowingFeedback)
-                      ? widgetFeedback()
+                      ? widgetFeedback(unitQuestion)
                       : Center(child: endQuestion()),
             ),
             (unitQuestion.length > _cc && !_isShowingFeedback)
@@ -243,7 +248,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
             }),
         controller: _panelToolKitUpPanelController,
         maxHeight: (media.height > 600)
-            ? MediaQuery.of(context).size.height * 0.5
+            ? MediaQuery.of(context).size.height * 0.35
             : media.height * 0.4,
         minHeight: (media.height > 600)
             ? MediaQuery.of(context).size.height * 0.05
@@ -297,17 +302,6 @@ class _ProblemWidgetState extends State<ProblemWidget> {
   int currentIndex1 = 0;
   int currentIndex2 = 0;
   Widget straight1EquationsSlideUpBody(List<UnitQuestion> questions) {
-    String typenAngle1 = questions[_cc].option[0].answerOption;
-    String typenAngle2 = questions[_cc].option[1].answerOption;
-    int num1 = int.tryParse(questions[_cc].option[2].answerOption)!;
-    int num2 = int.tryParse(questions[_cc].option[3].answerOption)!;
-
-    String latexExpression = r""" <h2>\(""" +
-        num1.toString() +
-        r""" < x \leq """ +
-        num2.toString() +
-        r"""\)</h2>""";
-
     return CustomScrollView(slivers: [
       SliverPadding(
         padding: EdgeInsets.only(
@@ -317,148 +311,6 @@ class _ProblemWidgetState extends State<ProblemWidget> {
           child: viewNumberOfQuetion(questions[_cc].titleQuestion),
         ),
       ),
-      (questions[_cc].idQuestion.contains("(1)"))
-          ? SliverPadding(
-              padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.025,
-              ),
-              sliver: SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 200,
-                  child: TeXView(
-                      renderingEngine: const TeXViewRenderingEngine.mathjax(),
-                      onRenderFinished: (height) {},
-                      child: TeXViewColumn(children: [
-                        TeXViewInkWell(
-                            child: TeXViewDocument(latexExpression,
-                                style: const TeXViewStyle(
-                                    textAlign: TeXViewTextAlign.center)),
-                            style: _teXViewStyle,
-                            id: "inkwell_1",
-                            rippleEffect: true,
-                            onTap: tapCallbackHandler),
-                      ]),
-                      style: const TeXViewStyle(
-                        margin: TeXViewMargin.all(2),
-                        padding: TeXViewPadding.all(5),
-                        borderRadius: TeXViewBorderRadius.all(5),
-                        border: TeXViewBorder.all(
-                          TeXViewBorderDecoration(
-                              borderColor: Colors.blue,
-                              borderStyle: TeXViewBorderStyle.solid,
-                              borderWidth: 5),
-                        ),
-                        backgroundColor: Colors.white,
-                      ),
-                      loadingWidgetBuilder: (context) => const Center(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                CircularProgressIndicator(),
-                                Text("Rendering...")
-                              ],
-                            ),
-                          )),
-                ),
-              ),
-            )
-          : const SliverToBoxAdapter(),
-      (questions[_cc].idQuestion.contains("(1)"))
-          ? SliverPadding(
-              padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.width * 0.001),
-              sliver: SliverToBoxAdapter(),
-            )
-          : SliverPadding(
-              padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.width * 0.001),
-              sliver: SliverToBoxAdapter(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left:
-                                      MediaQuery.of(context).size.width * 0.2),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom:
-                                            MediaQuery.of(context).size.width *
-                                                0.1),
-                                    child: Text(
-                                        (typenAngle1.contains("openAngle"))
-                                            ? "( "
-                                            : "[ ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineLarge!
-                                            .copyWith(color: Colors.black)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom:
-                                            MediaQuery.of(context).size.width *
-                                                0.1),
-                                    child: Text(" $num1 ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineLarge!
-                                            .copyWith(color: Colors.black)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom:
-                                            MediaQuery.of(context).size.width *
-                                                0.1),
-                                    child: Text(" , ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineLarge!
-                                            .copyWith(color: Colors.black)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom:
-                                            MediaQuery.of(context).size.width *
-                                                0.1),
-                                    child: Text(" $num2 ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineLarge!
-                                            .copyWith(color: Colors.black)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom:
-                                            MediaQuery.of(context).size.width *
-                                                0.1),
-                                    child: Text(
-                                        (typenAngle2.contains("openAngle"))
-                                            ? " )"
-                                            : " ]",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineLarge!
-                                            .copyWith(color: Colors.black)),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )),
-                  ],
-                ),
-              ),
-            ),
     ]);
   }
 
@@ -637,74 +489,6 @@ class _ProblemWidgetState extends State<ProblemWidget> {
           ),
           sliver: SliverToBoxAdapter(
             child: viewNumberOfQuetion(questions[_cc].titleQuestion),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding:
-                EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.2),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                TeXView(
-                    renderingEngine: const TeXViewRenderingEngine.mathjax(),
-                    onRenderFinished: (height) {},
-                    child: TeXViewColumn(children: [
-                      TeXViewInkWell(
-                          child: const TeXViewDocument(
-                              r""" <h2>\(f(x) = {\sqrt{x}}\)</h2>""",
-                              style: TeXViewStyle(
-                                  textAlign: TeXViewTextAlign.center)),
-                          style: _teXViewStyle,
-                          id: "inkwell_1",
-                          rippleEffect: true,
-                          onTap: tapCallbackHandler),
-                    ]),
-                    style: const TeXViewStyle(
-                      margin: TeXViewMargin.all(5),
-                      padding: TeXViewPadding.all(10),
-                      borderRadius: TeXViewBorderRadius.all(10),
-                      border: TeXViewBorder.all(
-                        TeXViewBorderDecoration(
-                            borderColor: Colors.blue,
-                            borderStyle: TeXViewBorderStyle.solid,
-                            borderWidth: 5),
-                      ),
-                      backgroundColor: Colors.white,
-                    ),
-                    loadingWidgetBuilder: (context) => const Center(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              CircularProgressIndicator(),
-                              Text("Rendering...")
-                            ],
-                          ),
-                        )),
-                /*
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.13,
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: Container(
-                    decoration: BoxDecoration(border: Border.all()),
-                    child: MathField(
-                      controller: polynomialController,
-                      keyboardType: MathKeyboardType.expression,
-                      variables: const ['x'],
-                      decoration: const InputDecoration(),
-                      onSubmitted: (value) {
-                        setState(() {
-                          (value != "") ? buildGraph(value) : null;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                */
-              ],
-            ),
           ),
         ),
       ],
@@ -1744,7 +1528,151 @@ class _ProblemWidgetState extends State<ProblemWidget> {
   }
 
   Widget straightEquations(int index, List<UnitQuestion> questions) {
+    String typenAngle1 = questions[_cc].option[0].answerOption;
+    String typenAngle2 = questions[_cc].option[1].answerOption;
+
+    int num1 = int.tryParse(questions[_cc].option[2].answerOption)!;
+    int num2 = int.tryParse(questions[_cc].option[3].answerOption)!;
+
+    String latexExpression = "";
+    if (typenAngle1 == "openAngle" && typenAngle2 == "openAngle") {
+      latexExpression = num1 < num2
+          ? "<h2>\\(${num1.toString()} < x < ${num2.toString()}\\)</h2>"
+          : "<h2>\\(${num1.toString()} > x > ${num2.toString()}\\)</h2>";
+    } else if (typenAngle1 == "closedAngle" && typenAngle2 == "closedAngle") {
+      latexExpression = num1 < num2
+          ? "<h2>\\(${num1.toString()} \\leq x \\leq ${num2.toString()}\\)</h2>"
+          : "<h2>\\(${num1.toString()} \\geq x \\geq ${num2.toString()}\\)</h2>";
+    } else if (typenAngle1 == "openAngle" && typenAngle2 == "closedAngle") {
+      latexExpression = num1 < num2
+          ? "<h2>\\(${num1.toString()} < x \\leq ${num2.toString()}\\)</h2>"
+          : "<h2>\\(${num1.toString()} > x \\geq ${num2.toString()}\\)</h2>";
+    } else if (typenAngle1 == "closedAngle" && typenAngle2 == "openAngle") {
+      latexExpression = num1 < num2
+          ? "<h2>\\(${num1.toString()} \\leq x < ${num2.toString()}\\)</h2>"
+          : "<h2>\\(${num1.toString()} \\geq x > ${num2.toString()}\\)</h2>";
+    }
+
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      (questions[_cc].idQuestion.contains("(1)"))
+          ? SizedBox(
+              height: 200,
+              child: TeXView(
+                  renderingEngine: const TeXViewRenderingEngine.mathjax(),
+                  onRenderFinished: (height) {},
+                  child: TeXViewColumn(children: [
+                    TeXViewInkWell(
+                        child: TeXViewDocument(latexExpression,
+                            style: const TeXViewStyle(
+                                textAlign: TeXViewTextAlign.center)),
+                        style: _teXViewStyle,
+                        id: "inkwell_1",
+                        rippleEffect: true,
+                        onTap: tapCallbackHandler),
+                  ]),
+                  style: const TeXViewStyle(
+                    margin: TeXViewMargin.all(2),
+                    padding: TeXViewPadding.all(5),
+                    borderRadius: TeXViewBorderRadius.all(5),
+                    border: TeXViewBorder.all(
+                      TeXViewBorderDecoration(
+                          borderColor: Colors.blue,
+                          borderStyle: TeXViewBorderStyle.solid,
+                          borderWidth: 5),
+                    ),
+                    backgroundColor: Colors.white,
+                  ),
+                  loadingWidgetBuilder: (context) => const Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            CircularProgressIndicator(),
+                            Text("Rendering...")
+                          ],
+                        ),
+                      )),
+            )
+          : Container(),
+      (questions[_cc].idQuestion.contains("(1)"))
+          ? Container()
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.2),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).size.width *
+                                        0.1),
+                                child: Text(
+                                    (typenAngle1.contains("openAngle"))
+                                        ? "( "
+                                        : "[ ",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge!
+                                        .copyWith(color: Colors.black)),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).size.width *
+                                        0.1),
+                                child: Text(" $num1 ",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge!
+                                        .copyWith(color: Colors.black)),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).size.width *
+                                        0.1),
+                                child: Text(" , ",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge!
+                                        .copyWith(color: Colors.black)),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).size.width *
+                                        0.1),
+                                child: Text(" $num2 ",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge!
+                                        .copyWith(color: Colors.black)),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).size.width *
+                                        0.1),
+                                child: Text(
+                                    (typenAngle2.contains("openAngle"))
+                                        ? " )"
+                                        : " ]",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge!
+                                        .copyWith(color: Colors.black)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )),
+              ],
+            ),
       SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * 0.5,
@@ -2071,6 +1999,10 @@ class _ProblemWidgetState extends State<ProblemWidget> {
   int cont = 0;
   late double mostLeftSpot = 0.0;
   Widget vennEquations(int index, List<UnitQuestion> questions) {
+    String equationSF = questions[_cc].option[3].answerOption;
+    _textanswerSended4 = equationSF;
+    log(_textanswerSended4);
+    String latexExpression = "<h2>\\( f(x) = { $equationSF } \\)</h2>";
     return CustomScrollView(
       scrollDirection: Axis.horizontal,
       slivers: [
@@ -2087,9 +2019,8 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                     },
                     child: TeXViewColumn(children: [
                       TeXViewInkWell(
-                          child: const TeXViewDocument(
-                              r""" <h2>\(f(x) = {2x+1}\)</h2>""",
-                              style: TeXViewStyle(
+                          child: TeXViewDocument(latexExpression,
+                              style: const TeXViewStyle(
                                   textAlign: TeXViewTextAlign.center)),
                           style: _teXViewStyle,
                           id: "inkwell_1",
@@ -2470,10 +2401,50 @@ class _ProblemWidgetState extends State<ProblemWidget> {
   }
 
   Widget domainAndRange(int index, List<UnitQuestion> questions) {
-    buildGraph("\\sqrt{x}");
+    String equationSF = questions[_cc].option[3].answerOption;
+    _textanswerSended4 = equationSF;
+    log(_textanswerSended4);
+    String latexExpression = "<h2>\\( f(x) = { $equationSF } \\)</h2>";
+    buildGraph(equationSF);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        TeXView(
+            renderingEngine: const TeXViewRenderingEngine.mathjax(),
+            onRenderFinished: (height) {},
+            child: TeXViewColumn(children: [
+              TeXViewInkWell(
+                  child: TeXViewDocument(latexExpression,
+                      style: const TeXViewStyle(
+                          textAlign: TeXViewTextAlign.center)),
+                  style: _teXViewStyle,
+                  id: "inkwell_1",
+                  rippleEffect: true,
+                  onTap: tapCallbackHandler),
+            ]),
+            style: const TeXViewStyle(
+              margin: TeXViewMargin.all(5),
+              padding: TeXViewPadding.all(10),
+              borderRadius: TeXViewBorderRadius.all(10),
+              border: TeXViewBorder.all(
+                TeXViewBorderDecoration(
+                    borderColor: Colors.blue,
+                    borderStyle: TeXViewBorderStyle.solid,
+                    borderWidth: 5),
+              ),
+              backgroundColor: Colors.white,
+            ),
+            loadingWidgetBuilder: (context) => const Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      CircularProgressIndicator(),
+                      Text("Rendering...")
+                    ],
+                  ),
+                )),
         SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.7,
@@ -2573,7 +2544,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                   });
                 },
                 child: Card(
-                  child: productCard(questions, index),
+                  child: productCard(questions, 0),
                 ),
               ),
               GestureDetector(
@@ -2584,7 +2555,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                   });
                 },
                 child: Card(
-                  child: productCard(questions, index),
+                  child: productCard(questions, 1),
                 ),
               ),
             ],
@@ -2604,7 +2575,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                   });
                 },
                 child: Card(
-                  child: productCard(questions, index),
+                  child: productCard(questions, 2),
                 ),
               ),
               GestureDetector(
@@ -2615,7 +2586,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                   });
                 },
                 child: Card(
-                  child: productCard(questions, index),
+                  child: productCard(questions, 3),
                 ),
               ),
             ],
@@ -2626,8 +2597,6 @@ class _ProblemWidgetState extends State<ProblemWidget> {
   }
 
   void restartQuestion(List<UnitQuestion> data) {
-    _cc = _cc + 1;
-
     _manyOption = 3;
 
     score = 0;
@@ -2714,7 +2683,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
   }
 
   Widget productCard(List<UnitQuestion> data, int index) {
-    return index < data.length
+    return data.isNotEmpty
         ? GestureDetector(
             onTap: () {
               _controller.pause();
@@ -2746,7 +2715,6 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                                   : _answerSended4 = true;
                   log("Se pulsado el boton $index");
                   setState(() {
-                    _cc = _cc + 1;
                     restartQuestion(data);
                   });
 
@@ -2756,7 +2724,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
               }
             },
             child: Column(children: [
-              productCardWidget(data[_cc].option),
+              productCardWidget(data[_cc].option, index),
             ]),
           )
         : const Padding(
@@ -2818,6 +2786,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
           child: OutlinedButton(
               onPressed: (() {
                 setState(() {
+                  
                   score = 0;
                   _cc = 0;
                   scoreShow = 0;
@@ -2842,7 +2811,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
     );
   }
 
-  bodyWidgetFeedBack() {
+  bodyWidgetFeedBack(List<UnitQuestion> questions) {
     return Stack(
       children: [
         Card(
@@ -2855,6 +2824,91 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                   Text("\n Retroalimentación \n",
                       style: Theme.of(context).textTheme.headlineSmall,
                       textAlign: TextAlign.center),
+                  Text(
+                      (questions[_cc].feedBackQuestion.isNotEmpty)
+                          ? "\n${questions[_cc].feedBackQuestion}\n"
+                          : "Sin Texto",
+                      style: Theme.of(context).textTheme.labelLarge,
+                      textAlign: TextAlign.justify),
+                  (questions[_cc].urlImageOrVideoQuestion.contains("video"))
+                      ? Column(
+                          children: [
+                            Center(
+                              child: videoController.value.isInitialized
+                                  ? AspectRatio(
+                                      aspectRatio:
+                                          videoController.value.aspectRatio,
+                                      child: VideoPlayer(videoController),
+                                    )
+                                  : Container(),
+                            ),
+                            FloatingActionButton(
+                              onPressed: () {
+                                setState(() {
+                                  videoController.value.isPlaying
+                                      ? videoController.pause()
+                                      : videoController.play();
+                                });
+                              },
+                              child: Icon(
+                                videoController.value.isPlaying
+                                    ? Icons.pause
+                                    : Icons.play_arrow,
+                              ),
+                            ),
+                          ],
+                        )
+                      : (questions[_cc]
+                              .urlImageOrVideoQuestion
+                              .contains("image"))
+                          ? GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      contentPadding: EdgeInsets.zero,
+                                      content: SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.5,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.9,
+                                        child: InteractiveViewer(
+                                          boundaryMargin: EdgeInsets.all(0),
+                                          minScale: 0.1,
+                                          maxScale: 5.0,
+                                          child: Image.network(
+                                            questions[_cc]
+                                                .urlImageOrVideoQuestion
+                                                .split("]")[1],
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.9,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.4,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: FadeInImage(
+                                    placeholder: const AssetImage(
+                                        'assets/images/no-image.jpg'),
+                                    image: NetworkImage(questions[_cc]
+                                        .urlImageOrVideoQuestion
+                                        .split("]")[1]),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container()
                 ],
               ),
             ),
@@ -2864,14 +2918,15 @@ class _ProblemWidgetState extends State<ProblemWidget> {
     );
   }
 
-  widgetFeedback() {
+  widgetFeedback(List<UnitQuestion> questions) {
     return Column(
       children: [
-        bodyWidgetFeedBack(),
+        bodyWidgetFeedBack(questions),
         Card(
           child: OutlinedButton(
               onPressed: (() {
                 setState(() {
+                  _cc = _cc + 1;
                   _isShowingFeedback = false;
                 });
               }),
@@ -2882,10 +2937,8 @@ class _ProblemWidgetState extends State<ProblemWidget> {
     );
   }
 
-  int index = -1;
-  Widget productCardWidget(List<Option> data) {
-    index++;
-    return index < data.length
+  Widget productCardWidget(List<Option> data, int index) {
+    return data.isNotEmpty
         ? SizedBox(
             width: MediaQuery.of(context).size.width * 0.38,
             height: MediaQuery.of(context).size.width * 0.45,
@@ -2898,15 +2951,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                   SizedBox(
                     height: 60,
                     width: 60,
-                    child: Text((index == 0)
-                        ? data[0].answerOption
-                        : (index == 1)
-                            ? data[1].answerOption
-                            : (index == 2)
-                                ? data[2].answerOption
-                                : (index == 3)
-                                    ? data[3].answerOption
-                                    : data[0].answerOption),
+                    child: Text(data[index].answerOption),
                   ),
                 ],
               ),
