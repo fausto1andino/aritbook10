@@ -1,6 +1,8 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:media_cache_manager/media_cache_manager.dart';
 
 import '../../models/UnitModel/unitsubject._model.dart';
 
@@ -56,18 +58,23 @@ class TopicExample extends StatelessWidget {
                                 boundaryMargin: EdgeInsets.all(0),
                                 minScale: 0.1,
                                 maxScale: 5.0,
-                                child: FadeInImage(
-                                  placeholder: const AssetImage(
-                                      'assets/images/no-image.jpg'),
-                                  image: unitBookSubject
-                                              .topic[index].urlImageTopic !=
-                                          ''
-                                      ? NetworkImage(unitBookSubject
-                                          .topic[index].urlImageTopic)
-                                      : NetworkImage(
-                                          'assets/images/LogoAritbook.png'),
-                                  height: size.height * 0.3,
+                                child:   DownloadMediaBuilder(
+                                  url: unitBookSubject
+                                      .topic[index].urlImageTopic,
+                                  onSuccess: (snapshot) {
+                                    return Image.file(
+                                      File(snapshot.filePath!),
+                                      width: size.width * 0.40,
+                                      height: (size.width > 361)
+                                          ? MediaQuery.of(context).size.width *
+                                              0.55
+                                          : MediaQuery.of(context).size.width *
+                                              0.35,
+                                      fit: BoxFit.fill,
+                                    );
+                                  },
                                 ),
+                              
                               ),
                             ),
                           );

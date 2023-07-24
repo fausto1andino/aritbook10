@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:media_cache_manager/media_cache_manager.dart';
 
 import '../../models/UnitModel/unit_model.dart';
 
@@ -28,10 +31,14 @@ class CustomAppBar extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        background: FadeInImage(
-          placeholder: const AssetImage('assets/loading.gif'),
-          image: NetworkImage(unitBook.urlMainImage),
-          fit: BoxFit.cover,
+        background: DownloadMediaBuilder(
+          url: unitBook.urlMainImage,
+          onSuccess: (snapshot) {
+            return Image.file(
+              File(snapshot.filePath!),
+              fit: BoxFit.fill,
+            );
+          },
         ),
       ),
     );

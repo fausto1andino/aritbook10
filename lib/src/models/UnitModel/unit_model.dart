@@ -144,35 +144,31 @@ UnitBook unit1Example() {
   List<Topic> subjectUnit1Subject1 = [
     Topic(
         idTopic: 1,
-        titleTopic: "Ejemplo de energía en el día.",
-        topicDescription: "Jhonatan Laines",
+
         urlImageTopic:
             "https://res.cloudinary.com/dsuh0d4g5/image/upload/v1684299777/DocIDImage/example1IMG1_rgcrno.png",
-        urlVideoTopic: ""),
+        ),
     Topic(
         idTopic: 2,
-        titleTopic: "Ejemplo de energía en el día.",
-        topicDescription: "Jhonatan Laines",
+      
         urlImageTopic:
             "https://res.cloudinary.com/dsuh0d4g5/image/upload/v1684299777/DocIDImage/example1IMG2_qoejet.png",
-        urlVideoTopic: ""),
+        ),
   ];
 
   List<Topic> subjectUnit1Subject2 = [
     Topic(
         idTopic: 3,
-        titleTopic: "Diagramas de VENN",
-        topicDescription: "Jhonatan Laines",
+       
         urlImageTopic:
             "https://res.cloudinary.com/dsuh0d4g5/image/upload/v1684299777/DocIDImage/example2IMG1_fy5mtd.png",
-        urlVideoTopic: ""),
+        ),
     Topic(
         idTopic: 4,
-        titleTopic: "Diagramas de VENN",
-        topicDescription: "Jhonatan Laines",
+       
         urlImageTopic:
             "https://res.cloudinary.com/dsuh0d4g5/image/upload/v1684299777/DocIDImage/example2IMG2_ev98lg.png",
-        urlVideoTopic: "")
+       )
   ];
 
   List<UnitSubject> unitSubject1 = [
@@ -209,10 +205,9 @@ UnitBook unit2Example() {
   List<Topic> subjectUnit1Subject1 = [
     Topic(
         idTopic: 1,
-        titleTopic: "Ejemplo de energía en el día.",
-        topicDescription: "Jhonatan Laines",
+       
         urlImageTopic: "",
-        urlVideoTopic: "")
+        )
   ];
   List<UnitSubject> unitSubject1 = [
     UnitSubject(

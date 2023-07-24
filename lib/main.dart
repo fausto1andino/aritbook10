@@ -6,6 +6,7 @@ import 'package:EspeMath/src/widgets/TheneDetails/questionswidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:media_cache_manager/media_cache_manager.dart';
 import 'package:provider/provider.dart';
 import 'src/pages/home_page.dart';
 import 'src/pages/themedetails_page.dart';
@@ -18,18 +19,22 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
-    (value) {
-      runApp(
-        MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_) => MainProvider()),
-          ],
-          child: const MyApp(),
-        ),
-      );
-    },
-  );
+
+   MediaCacheManager.instance.init().then((value) {
+     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
+      (value) {
+        runApp(
+          MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (_) => MainProvider()),
+            ],
+            child: const MyApp(),
+          ),
+        );
+      },
+    );
+  });
+
 }
 
 class MyApp extends StatefulWidget {

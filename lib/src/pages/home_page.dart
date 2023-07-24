@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:EspeMath/src/models/UnitModel/unit_model.dart';
 import 'package:EspeMath/src/services/unit_content.services.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:developer' as dev;
+import '../core/Provider/main_provider.dart';
 import '../services/auth.services.dart';
 import '../widgets/ThemeSwipper.dart';
 
@@ -93,19 +97,39 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   getContent() async {
+    final mainProviderSave = Provider.of<MainProvider>(context, listen: false);
     UnitContent unitContent = UnitContent();
     dev.log("HOMESCREEN");
     unitOneBook.clear();
 
-    List<UnitBook>? data = await unitContent.getContent();
-
-    for (var item in data!) {
-      unitOneBook.add(item);
+    try {
+      List<UnitBook>? data = await unitContent.getContent().timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          dev.log(e.toString());
+          mainProviderSave.getPreferencesUnitDataBase().then((value) {
+            setState(() {
+              unitOneBook = value;
+            });
+          });
+          return unitOneBook;
+        },
+      );
+      for (var item in data) {
+        unitOneBook.add(item);
+      }
+      mainProviderSave.updateUnitDataBase(unitOneBook);
+      setState(() {
+        data_loading = false;
+      });
+    } on Exception catch (e) {
+      dev.log(e.toString());
+      mainProviderSave.getPreferencesUnitDataBase().then((value) {
+        setState(() {
+          unitOneBook = value;
+        });
+      });
     }
-
-    setState(() {
-      data_loading = false;
-    });
   }
 
   logOut() {

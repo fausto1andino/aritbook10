@@ -14,21 +14,9 @@ class UnitContent {
     final content = db.collection('contenido').orderBy('unidad');
     final fullContent = await content.get();
     List<UnitBook> totalBook = [];
-    Future<UnitBook> unitBook = Future.value(UnitBook(
-        descriptionUnitBook: '',
-        idUnitBook: '',
-        titleUnitBook: '',
-        unitQuestion: [],
-        unitSubject: [],
-        urlMainImage: ''));
 
     try {
-      //   db.enableNetwork().then((_) {
-      //dev.log("Network enabled");
-
       for (var unidad in fullContent.docs) {
-        // dev.log(unidad.id.toString());
-        // dev.log(unidad.data().toString());
         var unitContent = db
             .collection('contenido')
             .doc(unidad.id)
@@ -74,8 +62,7 @@ class UnitContent {
         }
 
         for (var tema in units.docs) {
-          // dev.log(tema.id.toString());
-          // dev.log(tema.data().toString());
+
           var topicContent = db
               .collection('contenido')
               .doc(unidadID)
@@ -85,16 +72,11 @@ class UnitContent {
           var topicUnidad = await topicContent.get();
           List<Topic> topics = [];
           for (var topic in topicUnidad.docs) {
-            //  dev.log("TOPIC");
-            // dev.log(topic.id.toString());
-            // dev.log(topic.data().toString());
+
             var datos = topic.data();
             Topic topicData = Topic(
               idTopic: datos['idTopic'],
-              titleTopic: datos['titleTopic'],
-              topicDescription: datos['topicDescription'],
               urlImageTopic: datos['urlImageTopic'],
-              urlVideoTopic: datos['urlVideoTopic'],
             );
             topics.add(topicData);
           }
@@ -107,10 +89,7 @@ class UnitContent {
           );
           unitSubject.add(unidad);
         }
-
-        // dev.log(unitSubject.toString());
         var datos = unidad.data();
-
         UnitBook unit = UnitBook(
           idUnitBook: datos['idUnitBook'],
           titleUnitBook: datos['titleUnitBook'],
@@ -120,14 +99,9 @@ class UnitContent {
           unitQuestion: unitQuestions,
         );
         totalBook.add(unit);
-        dev.log("UNIT");
       }
       return totalBook;
-      //dev.log("UNITBOOK");
-      //dev.log(unitBook.toString());
     } catch (e) {
-      dev.log(e.toString());
-
       return Future.error(e);
     }
   }
