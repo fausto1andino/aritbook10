@@ -17,13 +17,19 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -46,32 +52,12 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAdiYEpjASgd3vlzY_YZrbyePJeX8U6VvY',
-    appId: '1:385796186485:web:8e6f5854325b46749db33c',
-    messagingSenderId: '385796186485',
-    projectId: 'matbook-93511',
-    authDomain: 'matbook-93511.firebaseapp.com',
-    storageBucket: 'matbook-93511.appspot.com',
-    measurementId: 'G-ZCKBWBF9HP',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyASF-2-vcXOVoEiUL7_0QuXVCZBkICSlKU',
-    appId: '1:385796186485:android:82cfbfed6a3ff07f9db33c',
+    appId: '1:385796186485:android:93e0773b1249a27d9db33c',
     messagingSenderId: '385796186485',
     projectId: 'matbook-93511',
+    databaseURL: 'https://matbook-93511-default-rtdb.firebaseio.com',
     storageBucket: 'matbook-93511.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCYu50vfIQYGd6cwkN93Ogj4z1W3gi5gpM',
-    appId: '1:385796186485:ios:bfb243f91746a27f9db33c',
-    messagingSenderId: '385796186485',
-    projectId: 'matbook-93511',
-    storageBucket: 'matbook-93511.appspot.com',
-    iosClientId:
-        '385796186485-krclp969npc0dpq5h1gafu6n9h02959d.apps.googleusercontent.com',
-    iosBundleId: 'com.example.EspeMath',
   );
 }

@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
-
-import 'package:EspeMath/src/models/UnitModel/unit_model.dart';
+import 'dart:io';
+import 'package:espe_math/src/models/UnitModel/unit_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart';
 
 class MainProvider extends ChangeNotifier {
   static late SharedPreferences prefs;
@@ -22,6 +23,13 @@ class MainProvider extends ChangeNotifier {
     updateToken(newToken);
     _token = newToken;
     notifyListeners();
+  }
+
+  Future<String> saveHtmlFile(String content) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/ebook.html');
+    await file.writeAsString(content);
+    return file.path;
   }
 
   Future<void> updateToken(String token) async {
@@ -63,15 +71,14 @@ class MainProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateUnitDataBase(
-      List<UnitBook> unitToGets) async {
+  Future<void> updateUnitDataBase(List<UnitBook> unitToGets) async {
     prefs = await SharedPreferences.getInstance();
     var jsonUnitToGets = jsonEncode(unitToGets);
     log("los datos de la unidad guardados son : $jsonUnitToGets");
     await prefs.setString("unitDataBase", jsonUnitToGets);
   }
 
-Future<List<UnitBook>> getPreferencesUnitDataBase() async {
+  Future<List<UnitBook>> getPreferencesUnitDataBase() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String unitDataBase = prefs.getString("unitDataBase") ?? "";

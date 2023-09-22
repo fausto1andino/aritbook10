@@ -51,7 +51,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+
     super.dispose();
     score = 0;
     scoreShow = 0;
@@ -349,19 +349,19 @@ class _QuestionWidgetState extends State<QuestionWidget> {
               minX: -10,
               maxY: 10,
               minY: -10,
-              lineTouchData: LineTouchData(
+              lineTouchData: const LineTouchData(
                 enabled: false,
               ),
               gridData: FlGridData(
                 show: true,
                 getDrawingHorizontalLine: (value) {
                   if (value == 0) {
-                    return FlLine(
+                    return const FlLine(
                       color: Colors.blue,
                       strokeWidth: 2.0,
                     );
                   } else {
-                    return FlLine(
+                    return const FlLine(
                       color: Colors.grey,
                       strokeWidth: 0.5,
                     );
@@ -369,12 +369,12 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                 },
                 getDrawingVerticalLine: (value) {
                   if (value == 0) {
-                    return FlLine(
+                    return const FlLine(
                       color: Colors.blue,
                       strokeWidth: 2.0,
                     );
                   } else {
-                    return FlLine(
+                    return const FlLine(
                       color: Colors.grey,
                       strokeWidth: 0.5,
                     );
@@ -659,17 +659,17 @@ class _QuestionWidgetState extends State<QuestionWidget> {
             padding: const EdgeInsets.all(16.0),
             child: LineChart(
               LineChartData(
-                lineTouchData: LineTouchData(enabled: false),
+                lineTouchData: const LineTouchData(enabled: false),
                 gridData: FlGridData(
                   show: true,
                   getDrawingHorizontalLine: (value) {
                     if (value == 0) {
-                      return FlLine(
+                      return const FlLine(
                         color: Colors.blue,
                         strokeWidth: 2.0,
                       );
                     } else {
-                      return FlLine(
+                      return const FlLine(
                         color: Colors.grey,
                         strokeWidth: 0.5,
                       );
@@ -677,12 +677,12 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                   },
                   getDrawingVerticalLine: (value) {
                     if (value == 0) {
-                      return FlLine(
+                      return const FlLine(
                         color: Colors.blue,
                         strokeWidth: 2.0,
                       );
                     } else {
-                      return FlLine(
+                      return const FlLine(
                         color: Colors.grey,
                         strokeWidth: 0.5,
                       );
@@ -956,10 +956,10 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                     Column(
                       children: [
                         Text("\n Nota Final \n",
-                            style: Theme.of(context).textTheme.headline5,
+                            style: Theme.of(context).textTheme.headlineSmall,
                             textAlign: TextAlign.center),
                         Text("$scoreShow",
-                            style: Theme.of(context).textTheme.headline3,
+                            style: Theme.of(context).textTheme.displaySmall,
                             textAlign: TextAlign.center)
                       ],
                     )
@@ -1038,8 +1038,8 @@ class _QuestionWidgetState extends State<QuestionWidget> {
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.40,
               height: MediaQuery.of(context).size.width * 0.59,
-              child: Stack(
-                children: const [
+              child: const Stack(
+                children: [
                   Align(
                       alignment: Alignment.center,
                       child: Text("No Hay Preguntas"))
@@ -1054,7 +1054,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
       height: MediaQuery.of(context).size.width * 0.3,
       width: MediaQuery.of(context).size.width * 0.9,
       child: Text(
-        "$questionName",
+        questionName,
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.titleLarge,
       ),

@@ -78,7 +78,7 @@ class _SlidingUpPanelHomePageWidgetState
                         Icons.circle_notifications,
                         color: Theme.of(context).cardColor,
                       ),
-                      label: Text(""))
+                      label: const Text(""))
                   : TextButton.icon(
                       onPressed: () {
                         widget.panelOrderPanelController.close();
@@ -87,7 +87,7 @@ class _SlidingUpPanelHomePageWidgetState
                         Icons.circle,
                         color: Theme.of(context).cardColor,
                       ),
-                      label: Text(""))
+                      label: const Text(""))
             ],
           ),
         ),

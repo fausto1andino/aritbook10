@@ -1,4 +1,4 @@
-import 'package:EspeMath/src/bloc/validation_bloc.dart';
+import 'package:espe_math/src/bloc/validation_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SignUpBloc with Validator {

@@ -7,7 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../bloc/login_bloc.dart';
 import '../core/Provider/main_provider.dart';
 import '../services/auth.services.dart';
-import '../widgets/toast.widget.dart';
+
 import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -157,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                                       onPressed: () async {
                                         if (buttonGoogle) {
                                           buttonGoogle = false;
-                                          var result = googleSignIn(context);
+                                          googleSignIn(context);
                                           buttonGoogle = true;
                                         }
                                       },
@@ -177,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ],
                                 )
                               ],
-                             ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Align(
@@ -255,10 +255,10 @@ class _LoginPageState extends State<LoginPage> {
       dev.log("Valor de toast");
       return value;
     });
-    toast ? ToastCorrect() : ToastError("No se pudo iniciar sesión");
+    toast ? toastCorrect() : toastError("No se pudo iniciar sesión");
   }
 
-  void ToastCorrect() {
+  void toastCorrect() {
     return fToast.showToast(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
@@ -266,7 +266,7 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.circular(25.0),
           color: Colors.greenAccent,
         ),
-        child: Row(
+        child: const Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.check),
@@ -278,11 +278,11 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       gravity: ToastGravity.BOTTOM,
-      toastDuration: Duration(seconds: 2),
+      toastDuration: const Duration(seconds: 2),
     );
   }
 
-  void ToastError(String errorMessage) {
+  void toastError(String errorMessage) {
     return fToast.showToast(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
@@ -293,8 +293,8 @@ class _LoginPageState extends State<LoginPage> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.error),
-            SizedBox(
+            const Icon(Icons.error),
+            const SizedBox(
               width: 12.0,
             ),
             Text(errorMessage),
@@ -302,7 +302,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       gravity: ToastGravity.BOTTOM,
-      toastDuration: Duration(seconds: 2),
+      toastDuration: const Duration(seconds: 2),
     );
   }
 }

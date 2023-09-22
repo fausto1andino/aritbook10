@@ -1,8 +1,9 @@
 import 'dart:developer';
 
-import 'package:EspeMath/src/pages/question_page.dart';
-import 'package:EspeMath/src/widgets/TheneDetails/topicdeatail.dart';
-import 'package:EspeMath/src/widgets/TheneDetails/topicexample.dart';
+import 'package:espe_math/src/pages/geogebra_view_body.dart';
+import 'package:espe_math/src/pages/question_page.dart';
+import 'package:espe_math/src/widgets/TheneDetails/topicdeatail.dart';
+import 'package:espe_math/src/widgets/TheneDetails/topicexample.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -44,6 +45,21 @@ class ThemeDetailsScreenState extends State<ThemeDetailsScreen> {
           slivers: [
             CustomAppBar(unitBook),
             SliverToBoxAdapter(child: UnitTittle(unitBook)),
+            SliverToBoxAdapter(
+              child: OutlinedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LocalHtmlViewer(
+                        urlToLaunch: 'https://www.geogebra.org/m/hg3femjc',
+                      ),
+                    ),
+                  );
+                },
+                child: const Text("Ver libro virtual de Geogebra"),
+              ),
+            ),
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {

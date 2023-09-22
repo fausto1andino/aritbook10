@@ -1,6 +1,6 @@
 {
-    "name": "EspeMath",
-    "short_name": "EspeMath",
+    "name": "espe_math",
+    "short_name": "espe_math",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

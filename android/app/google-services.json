@@ -1,20 +1,29 @@
 {
   "project_info": {
     "project_number": "385796186485",
+    "firebase_url": "https://matbook-93511-default-rtdb.firebaseio.com",
     "project_id": "matbook-93511",
     "storage_bucket": "matbook-93511.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:385796186485:android:82cfbfed6a3ff07f9db33c",
+        "mobilesdk_app_id": "1:385796186485:android:93e0773b1249a27d9db33c",
         "android_client_info": {
-          "package_name": "com.example.EspeMath"
+          "package_name": "com.example.espe_math"
         }
       },
       "oauth_client": [
         {
-          "client_id": "385796186485-0pg50lmk7t7o1jnk02hrrqvoif72er3k.apps.googleusercontent.com",
+          "client_id": "385796186485-60aqhn89ko18d80dkn27aj6euj5hjjq8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.espe_math",
+            "certificate_hash": "8088c75230e2bace8ba34c2cde7319aa728b664b"
+          }
+        },
+        {
+          "client_id": "385796186485-mq8edlssopomqu1eri9nctch8dgib980.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -29,6 +38,13 @@
             {
               "client_id": "385796186485-0pg50lmk7t7o1jnk02hrrqvoif72er3k.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "385796186485-krclp969npc0dpq5h1gafu6n9h02959d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.aritbook10"
+              }
             }
           ]
         }

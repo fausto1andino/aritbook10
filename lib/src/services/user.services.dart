@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as dev;
 
 import '../models/user_data.model.dart';
@@ -12,12 +11,10 @@ class UserServices {
   }
 
   createNewUser(
-      String email, String name, String phoneNumber, String password) {
-    var db = FirebaseFirestore.instance;
-  }
+      String email, String name, String phoneNumber, String password) {}
 
   getUser(String id) async {
-    var user;
+    UserData? user;
     var db = FirebaseFirestore.instance;
     final userRef = db.collection("users");
     final query = userRef.where("id", isEqualTo: id);
@@ -25,7 +22,7 @@ class UserServices {
 
     if (result.docs.isNotEmpty) {
       user = UserData.fromDocument(result.docs.first);
-      dev.log("User: " + user.toString());
+      dev.log("User: $user");
     } else {
       user = null;
     }
@@ -43,6 +40,7 @@ class UserServices {
       db.collection('users').doc(userID).update(user.toFirestore());
       return true;
     } on Exception catch (e) {
+      dev.log(e.toString());
       return false;
     }
   }

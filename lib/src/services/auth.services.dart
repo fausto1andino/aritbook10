@@ -1,10 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:EspeMath/src/services/shared_prefs.services.dart';
-import 'package:EspeMath/src/services/user.services.dart';
+import 'package:espe_math/src/services/shared_prefs.services.dart';
+import 'package:espe_math/src/services/user.services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 import 'package:google_sign_in/google_sign_in.dart';
@@ -102,54 +101,62 @@ class AuthServices {
     try {
       final mainProvider = Provider.of<MainProvider>(context, listen: false);
 
-      var db = FirebaseFirestore.instance;
-      final emailRef = db.collection("users");
-      final UserServices userServices = UserServices();
       final GoogleSignIn googleSignIn = GoogleSignIn();
-
       final GoogleSignInAccount? googleSignInAccount =
-          await googleSignIn.signIn().catchError((onError) {
-        dev.log("Error $onError");
-      });
+          await googleSignIn.signIn();
+
       if (googleSignInAccount == null) {
         return false;
       }
-      dev.log(googleSignInAccount.toString());
 
-      await googleCreateAccount(googleSignInAccount, context);
-      dev.log("Current User");
-      dev.log(auth.currentUser.toString());
-      mainProvider.updateToken(auth.currentUser!.uid);
-      dev.log('TOKEN');
-      dev.log(mainProvider.token);
-      dev.log('TOKEN');
-      Navigator.of(context).pushAndRemoveUntil(
+      // Aquí obtenemos las credenciales de Google
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      // Intenta autenticar al usuario con Firebase usando las credenciales de Google
+      final UserCredential userCredential =
+          await auth.signInWithCredential(credential);
+
+      if (userCredential.user != null) {
+        // Si la autenticación es exitosa, actualizamos el token y navegamos a la página principal
+        mainProvider.updateToken(userCredential.user!.uid);
+        Navigator.of(context).pushAndRemoveUntil(
           PageRouteBuilder(
-            pageBuilder: (context, a1, a2) {
-              return const MyHomePage(
-                title: "Pagina Principal",
-              );
-            },
+            pageBuilder: (context, a1, a2) =>
+                const MyHomePage(title: "Pagina Principal"),
             transitionsBuilder: (c, anim, a2, child) {
               const begin = Offset(0.0, 1.0);
               const end = Offset.zero;
               const curve = Curves.ease;
               var tween =
                   Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-              return SlideTransition(
-                position: anim.drive(tween),
-                child: child,
-              );
+              return SlideTransition(position: anim.drive(tween), child: child);
             },
           ),
-          (route) => false);
-      return true;
+          (route) => false,
+        );
+
+        return true;
+      }
     } catch (e) {
       dev.log(e.toString());
+
       if (e.toString().contains("sign_in_failed")) {
-        dev.log("Sin cuenta");
+        dev.log("Error en el inicio de sesión o registro con Google.");
+      } else if (e
+          .toString()
+          .contains("ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL")) {
+        dev.log(
+            "Una cuenta ya existe con un tipo de inicio de sesión diferente.");
+      } else {
+        // Puedes manejar más errores específicos de Firebase aquí si lo necesitas
       }
     }
+
     return false;
   }
 
@@ -246,14 +253,14 @@ class AuthServices {
     dev.log(phoneNumber.toString());
     try {
       auth.verifyPhoneNumber(
-        phoneNumber: "+" + phoneNumber,
+        phoneNumber: "+$phoneNumber",
         verificationCompleted: (PhoneAuthCredential credential) async {
           dev.log("verif completed");
           dev.log(credential.smsCode.toString());
           dev.log(credential.token.toString());
           var data =
               await FirebaseAuth.instance.signInWithCredential(credential);
-          dev.log(await data.toString());
+          dev.log(data.toString());
         },
         verificationFailed: (FirebaseAuthException e) {
           dev.log("verif failed");
@@ -267,7 +274,7 @@ class AuthServices {
         },
         codeAutoRetrievalTimeout: (String verificationId) {
           dev.log("Timeout");
-          dev.log("Timeout" + verificationId.toString());
+          dev.log("Timeout $verificationId");
         },
       );
     } catch (e) {
@@ -275,14 +282,13 @@ class AuthServices {
     }
   }
 
-  Future<bool> submitOTP(String OTP, BuildContext context) async {
+  Future<bool> submitOTP(String otp, BuildContext context) async {
     dev.log("submit otp");
 
     try {
       PhoneAuthCredential phoneAuthCredential =
-          await PhoneAuthProvider.credential(
-              verificationId: verifId, smsCode: OTP);
-      dev.log(await phoneAuthCredential.toString());
+          PhoneAuthProvider.credential(verificationId: verifId, smsCode: otp);
+      dev.log(phoneAuthCredential.toString());
 
       await auth.currentUser?.updatePhoneNumber(phoneAuthCredential);
 

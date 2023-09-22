@@ -22,7 +22,7 @@ class UnitTittle extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(unitBook.idUnitBook,
-                    style: textTheme.headline5,
+                    style: textTheme.headlineSmall,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2),
                 Padding(
@@ -32,7 +32,7 @@ class UnitTittle extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text('${unitBook.descriptionUnitBook}' '',
-                            style: textTheme.caption),
+                            style: textTheme.bodySmall),
                       ),
                     ],
                   ),

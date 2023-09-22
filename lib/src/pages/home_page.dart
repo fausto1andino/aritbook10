@@ -1,8 +1,9 @@
 import 'dart:math';
 
-import 'package:EspeMath/src/models/UnitModel/unit_model.dart';
-import 'package:EspeMath/src/services/unit_content.services.dart';
+import 'package:espe_math/src/models/UnitModel/unit_model.dart';
+import 'package:espe_math/src/services/unit_content.services.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as dev;
 import '../core/Provider/main_provider.dart';
@@ -20,12 +21,38 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late List<UnitBook> unitOneBook = [];
-  bool data_loading = true;
+  bool dataLoading = true;
+  late FToast fToast;
   @override
   void initState() {
-    // TODO: implement initState
+    fToast = FToast();
+    fToast.init(context);
     getContent();
     super.initState();
+  }
+
+  void toastCorrect() {
+    return fToast.showToast(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25.0),
+          color: Colors.blue,
+        ),
+        child: const Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.check),
+            SizedBox(
+              width: 12.0,
+            ),
+            Text("Datos Actualozados"),
+          ],
+        ),
+      ),
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: const Duration(seconds: 2),
+    );
   }
 
   @override
@@ -34,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: data_loading
+        body: dataLoading
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
                 child: Column(
@@ -63,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text("Cerrar sesión",
+                        const Text("Cerrar sesión",
                             style: TextStyle(color: Colors.red)),
                         const SizedBox(
                           height: 60,
@@ -84,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text("Nuevas clases?",
+                        const Text("Nuevas clases?",
                             style: TextStyle(color: Colors.blue)),
                         const SizedBox(
                           height: 100,
@@ -104,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     try {
       List<UnitBook>? data = await unitContent.getContent().timeout(
-        const Duration(seconds: 10),
+        const Duration(seconds: 25),
         onTimeout: () {
           dev.log(e.toString());
           mainProviderSave.getPreferencesUnitDataBase().then((value) {
@@ -118,9 +145,11 @@ class _MyHomePageState extends State<MyHomePage> {
       for (var item in data) {
         unitOneBook.add(item);
       }
-      mainProviderSave.updateUnitDataBase(unitOneBook);
+      mainProviderSave
+          .updateUnitDataBase(unitOneBook)
+          .whenComplete(() => toastCorrect());
       setState(() {
-        data_loading = false;
+        dataLoading = false;
       });
     } on Exception catch (e) {
       dev.log(e.toString());
@@ -137,4 +166,5 @@ class _MyHomePageState extends State<MyHomePage> {
     dev.log("LOGOUT");
     authServices.signOut(context);
   }
+
 }

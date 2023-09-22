@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -55,7 +54,7 @@ class TopicExample extends StatelessWidget {
                               height: MediaQuery.of(context).size.height * 0.5,
                               width: MediaQuery.of(context).size.width * 0.9,
                               child: InteractiveViewer(
-                                boundaryMargin: EdgeInsets.all(0),
+                                boundaryMargin: const EdgeInsets.all(0),
                                 minScale: 0.1,
                                 maxScale: 5.0,
                                 child:   DownloadMediaBuilder(
@@ -91,7 +90,7 @@ class TopicExample extends StatelessWidget {
                                   ''
                               ? NetworkImage(
                                   unitBookSubject.topic[index].urlImageTopic)
-                              : NetworkImage('assets/images/LogoAritbook.png'),
+                              : const NetworkImage('assets/images/LogoAritbook.png'),
                           height: size.height * 0.3,
                         ),
                       ),

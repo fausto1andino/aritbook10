@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 class Toasty {
   FToast fToast = FToast();
 
-  void ToastCorrect(String successMessage) {
+  void toastCorrect(String successMessage) {
     return fToast.showToast(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
@@ -15,8 +15,8 @@ class Toasty {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.check),
-            SizedBox(
+            const Icon(Icons.check),
+            const SizedBox(
               width: 12.0,
             ),
             Text(successMessage),
@@ -24,11 +24,11 @@ class Toasty {
         ),
       ),
       gravity: ToastGravity.BOTTOM,
-      toastDuration: Duration(seconds: 2),
+      toastDuration: const Duration(seconds: 2),
     );
   }
 
-  void ToastError(String errorMessage) {
+  void toastError(String errorMessage) {
     return fToast.showToast(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
@@ -39,8 +39,8 @@ class Toasty {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.error),
-            SizedBox(
+            const Icon(Icons.error),
+            const SizedBox(
               width: 12.0,
             ),
             Text(errorMessage),
@@ -48,7 +48,7 @@ class Toasty {
         ),
       ),
       gravity: ToastGravity.BOTTOM,
-      toastDuration: Duration(seconds: 2),
+      toastDuration: const Duration(seconds: 2),
     );
   }
 }

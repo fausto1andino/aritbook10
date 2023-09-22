@@ -44,9 +44,7 @@ class AppTheme {
             labelColor: ligthMode ? HexColor("#3f888f") : Colors.white),
         colorScheme: ColorScheme(
           primary: HexColor("#3f888f"),
-          primaryVariant: HexColor("#5d8aa8"),
           secondary: HexColor("#054855"),
-          secondaryVariant: HexColor("#387a91"),
           surface: Colors.white,
           background: Colors.white70,
           error: Colors.red,

@@ -8,13 +8,11 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:math_keyboard/math_keyboard.dart';
-import 'package:video_player/video_player.dart';
 import '../../../models/UnitModel/unitoption_model.dart';
 import '../../../models/UnitModel/unitquestion_model.dart';
 import '../../../pages/home_page.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_tex/flutter_tex.dart';
-import 'dart:math' as math;
 
 class ProblemWidget extends StatefulWidget {
   const ProblemWidget({super.key});
@@ -39,10 +37,10 @@ bool _isToolKitUpPanelPanel = true;
 bool _isToolKitDownPanelPanel = true;
 bool _isShowingFeedback = false;
 
-bool _answerSended1 = false;
-bool _answerSended2 = false;
-bool _answerSended3 = false;
-bool _answerSended4 = false;
+bool answerSended1 = false;
+bool answerSended2 = false;
+bool answerSended3 = false;
+bool answerSended4 = false;
 
 String _textanswerSended1 = "openAngle";
 String _textanswerSended2 = "openAngle";
@@ -73,7 +71,6 @@ double _equation2P2Y = 8;
 
 TypeAnbsisa _typeAnbsisa = TypeAnbsisa.point1;
 TypeYesOrNo _typeYesOrNo = TypeYesOrNo.si;
-late VideoPlayerController videoController;
 
 class _ProblemWidgetState extends State<ProblemWidget> {
   @override
@@ -81,11 +78,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
     super.initState();
 
     _controller = CountDownController();
-    videoController = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-    )..initialize().then((_) {
-        setState(() {});
-      });
+
     scoreShow = 0;
   }
 
@@ -95,13 +88,13 @@ class _ProblemWidgetState extends State<ProblemWidget> {
     scoreShow = 0;
     _cc = 0;
     _counter = 31;
-    _answerSended1 = false;
-    _answerSended2 = false;
-    _answerSended3 = false;
-    _answerSended4 = false;
+    answerSended1 = false;
+    answerSended2 = false;
+    answerSended3 = false;
+    answerSended4 = false;
     _isShowingFeedback = false;
     _manyOption = 3;
-    videoController.dispose();
+
     super.dispose();
   }
 
@@ -522,7 +515,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text("Herramienta"),
+              const Text(" "),
               (_isToolKitUpPanelPanel)
                   ? TextButton.icon(
                       onPressed: () {
@@ -636,10 +629,18 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                                                   ),
                                                 ),
                                                 SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.25,
+                                                  width: (MediaQuery.of(context)
+                                                              .size
+                                                              .height >
+                                                          600)
+                                                      ? MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.25
+                                                      : MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.2,
                                                   height: MediaQuery.of(context)
                                                           .size
                                                           .width *
@@ -1202,7 +1203,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                                   ),
                                   lineBarsData: [
                                     LineChartBarData(
-                                      spots: _data7P,
+                                      spots: data7P,
                                       isCurved: false,
                                       color: Colors.red,
                                       barWidth: 2.0,
@@ -1993,7 +1994,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
   int selectedSetAIndex = -1;
   int selectedSetBIndex = -1;
   List<String> orderedPairs = [];
-  List<FlSpot> _data7P = [];
+  List<FlSpot> data7P = [];
 
   String orderedPair = "";
   int cont = 0;
@@ -2202,7 +2203,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                                     setState(() {
                                       orderedPairs.add(orderedPair);
 
-                                      _data7P.add(FlSpot(
+                                      data7P.add(FlSpot(
                                           double.tryParse(orderedPair
                                               .split(",")[0]
                                               .split("(")[1])!,
@@ -2330,7 +2331,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                       onPressed: () {
                         setState(() {
                           lineList.clear();
-                          _data7P.clear();
+                          data7P.clear();
                           orderedPairs.clear();
                         });
                       },
@@ -2350,8 +2351,8 @@ class _ProblemWidgetState extends State<ProblemWidget> {
   ///
   ///
 
-  List<FlSpot> _data4P = [];
-  List<FlSpot> _data5P = [];
+  List<FlSpot> data4P = [];
+  List<FlSpot> data5P = [];
   List<FlSpot> _data6P = [];
 
   List<FlSpot> generatePolynomialData(String expression) {
@@ -2383,14 +2384,14 @@ class _ProblemWidgetState extends State<ProblemWidget> {
   }
 
   buildGraph(String expresion) {
-    _data4P = [
+    data4P = [
       FlSpot(_equation2P1X, _equation2P1Y),
       FlSpot(0, _equation2P1Y),
       FlSpot(_equation2P1X, _equation2P1Y),
       FlSpot(_equation2P1X, 0),
     ];
 
-    _data5P = [
+    data5P = [
       FlSpot(_equation2P2X, _equation2P2Y),
       FlSpot(0, _equation2P2Y),
       FlSpot(_equation2P2X, _equation2P2Y),
@@ -2539,7 +2540,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    _answerSended1 = true;
+                    answerSended1 = true;
                     _textanswerSended1 = "1";
                   });
                 },
@@ -2550,7 +2551,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    _answerSended2 = true;
+                    answerSended2 = true;
                     _textanswerSended2 = "1";
                   });
                 },
@@ -2570,7 +2571,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    _answerSended3 = true;
+                    answerSended3 = true;
                     _textanswerSended3 = "1";
                   });
                 },
@@ -2581,7 +2582,7 @@ class _ProblemWidgetState extends State<ProblemWidget> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    _answerSended4 = true;
+                    answerSended4 = true;
                     _textanswerSended4 = "1";
                   });
                 },
@@ -2603,10 +2604,10 @@ class _ProblemWidgetState extends State<ProblemWidget> {
     _isToolKitUpPanelPanel = true;
     _isToolKitDownPanelPanel = true;
     _isShowingFeedback = true;
-    _answerSended1 = false;
-    _answerSended2 = false;
-    _answerSended3 = false;
-    _answerSended4 = false;
+    answerSended1 = false;
+    answerSended2 = false;
+    answerSended3 = false;
+    answerSended4 = false;
 
     _textanswerSended1 = "";
     _textanswerSended2 = "";
@@ -2649,10 +2650,10 @@ class _ProblemWidgetState extends State<ProblemWidget> {
           data[_cc].option[3].answerOption == _textanswerSended4) {
         log("Se pulsado el boton $index");
         setState(() {
-          _answerSended1 = data[_cc].option[0].isTheCorrectOption;
-          _answerSended2 = data[_cc].option[1].isTheCorrectOption;
-          _answerSended3 = data[_cc].option[2].isTheCorrectOption;
-          _answerSended4 = data[_cc].option[3].isTheCorrectOption;
+          answerSended1 = data[_cc].option[0].isTheCorrectOption;
+          answerSended2 = data[_cc].option[1].isTheCorrectOption;
+          answerSended3 = data[_cc].option[2].isTheCorrectOption;
+          answerSended4 = data[_cc].option[3].isTheCorrectOption;
 
           scoreShow = scoreShow + _manyOption;
           _manyOption = _manyOption - 3;
@@ -2663,14 +2664,14 @@ class _ProblemWidgetState extends State<ProblemWidget> {
         score = 0;
         _manyOption = _manyOption - 1;
         (index == 0)
-            ? _answerSended1 = true
+            ? answerSended1 = true
             : (index == 1)
-                ? _answerSended2 = true
+                ? answerSended2 = true
                 : (index == 2)
-                    ? _answerSended3 = true
+                    ? answerSended3 = true
                     : (index == 3)
-                        ? _answerSended4 = true
-                        : _answerSended4 = true;
+                        ? answerSended4 = true
+                        : answerSended4 = true;
         log("Se pulsado el boton $index");
         showInCorrectAnswerWithMessage(context, "");
         if (_manyOption == 0) {
@@ -2692,10 +2693,10 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                 if (data[_cc].option[index].isTheCorrectOption) {
                   log("Se pulsado el boton $index");
                   setState(() {
-                    _answerSended1 = data[_cc].option[0].isTheCorrectOption;
-                    _answerSended2 = data[_cc].option[1].isTheCorrectOption;
-                    _answerSended3 = data[_cc].option[2].isTheCorrectOption;
-                    _answerSended4 = data[_cc].option[3].isTheCorrectOption;
+                    answerSended1 = data[_cc].option[0].isTheCorrectOption;
+                    answerSended2 = data[_cc].option[1].isTheCorrectOption;
+                    answerSended3 = data[_cc].option[2].isTheCorrectOption;
+                    answerSended4 = data[_cc].option[3].isTheCorrectOption;
                     scoreShow = scoreShow + _manyOption;
                     _manyOption = _manyOption - 3;
                     restartQuestion(data);
@@ -2705,14 +2706,14 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                   score = 0;
                   _manyOption = _manyOption - 3;
                   (index == 0)
-                      ? _answerSended1 = true
+                      ? answerSended1 = true
                       : (index == 1)
-                          ? _answerSended2 = true
+                          ? answerSended2 = true
                           : (index == 2)
-                              ? _answerSended3 = true
+                              ? answerSended3 = true
                               : (index == 3)
-                                  ? _answerSended4 = true
-                                  : _answerSended4 = true;
+                                  ? answerSended4 = true
+                                  : answerSended4 = true;
                   log("Se pulsado el boton $index");
                   setState(() {
                     restartQuestion(data);
@@ -2751,15 +2752,15 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                     Column(
                       children: [
                         Text("\n Nota Final \n",
-                            style: Theme.of(context).textTheme.headline5,
+                            style: Theme.of(context).textTheme.headlineSmall,
                             textAlign: TextAlign.center),
                         Text("${scorefinalshow.round()}",
-                            style: Theme.of(context).textTheme.headline3,
+                            style: Theme.of(context).textTheme.displaySmall,
                             textAlign: TextAlign.center),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         RatingBarIndicator(
                           rating: scorefinal,
-                          itemBuilder: (context, index) => Icon(
+                          itemBuilder: (context, index) => const Icon(
                             Icons.star,
                             color: Colors.amber,
                           ),
@@ -2791,10 +2792,10 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                   _cc = 0;
                   scoreShow = 0;
                   _counter = 31;
-                  _answerSended1 = false;
-                  _answerSended2 = false;
-                  _answerSended3 = false;
-                  _answerSended4 = false;
+                  answerSended1 = false;
+                  answerSended2 = false;
+                  answerSended3 = false;
+                  answerSended4 = false;
                   _manyOption = 3;
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) {
@@ -2830,85 +2831,52 @@ class _ProblemWidgetState extends State<ProblemWidget> {
                           : "Sin Texto",
                       style: Theme.of(context).textTheme.labelLarge,
                       textAlign: TextAlign.justify),
-                  (questions[_cc].urlImageOrVideoQuestion.contains("video"))
-                      ? Column(
-                          children: [
-                            Center(
-                              child: videoController.value.isInitialized
-                                  ? AspectRatio(
-                                      aspectRatio:
-                                          videoController.value.aspectRatio,
-                                      child: VideoPlayer(videoController),
-                                    )
-                                  : Container(),
-                            ),
-                            FloatingActionButton(
-                              onPressed: () {
-                                setState(() {
-                                  videoController.value.isPlaying
-                                      ? videoController.pause()
-                                      : videoController.play();
-                                });
-                              },
-                              child: Icon(
-                                videoController.value.isPlaying
-                                    ? Icons.pause
-                                    : Icons.play_arrow,
-                              ),
-                            ),
-                          ],
-                        )
-                      : (questions[_cc]
-                              .urlImageOrVideoQuestion
-                              .contains("image"))
-                          ? GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      contentPadding: EdgeInsets.zero,
-                                      content: SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.5,
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.9,
-                                        child: InteractiveViewer(
-                                          boundaryMargin: EdgeInsets.all(0),
-                                          minScale: 0.1,
-                                          maxScale: 5.0,
-                                          child: Image.network(
-                                            questions[_cc]
-                                                .urlImageOrVideoQuestion
-                                                .split("]")[1],
-                                            fit: BoxFit.contain,
-                                          ),
-                                        ),
+                  (questions[_cc].urlImageOrVideoQuestion.contains("image"))
+                      ? GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  contentPadding: EdgeInsets.zero,
+                                  content: SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.5,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.9,
+                                    child: InteractiveViewer(
+                                      boundaryMargin: const EdgeInsets.all(0),
+                                      minScale: 0.1,
+                                      maxScale: 5.0,
+                                      child: Image.network(
+                                        questions[_cc]
+                                            .urlImageOrVideoQuestion
+                                            .split("]")[1],
+                                        fit: BoxFit.contain,
                                       ),
-                                    );
-                                  },
+                                    ),
+                                  ),
                                 );
                               },
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.9,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.4,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: FadeInImage(
-                                    placeholder: const AssetImage(
-                                        'assets/images/no-image.jpg'),
-                                    image: NetworkImage(questions[_cc]
-                                        .urlImageOrVideoQuestion
-                                        .split("]")[1]),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
+                            );
+                          },
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: FadeInImage(
+                                placeholder: const AssetImage(
+                                    'assets/images/no-image.jpg'),
+                                image: NetworkImage(questions[_cc]
+                                    .urlImageOrVideoQuestion
+                                    .split("]")[1]),
+                                fit: BoxFit.fill,
                               ),
-                            )
-                          : Container()
+                            ),
+                          ),
+                        )
+                      : Container()
                 ],
               ),
             ),
@@ -2978,14 +2946,14 @@ class _ProblemWidgetState extends State<ProblemWidget> {
       height: MediaQuery.of(context).size.width * 0.3,
       width: MediaQuery.of(context).size.width * 0.9,
       child: Text(
-        "$questionName",
+        questionName,
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.titleLarge,
       ),
     );
   }
 
-  _progressindicator(List<UnitQuestion> questions) {
+  progressindicator(List<UnitQuestion> questions) {
     return SizedBox(
         height: MediaQuery.of(context).size.height * 0.05,
         child: CircularCountDownTimer(

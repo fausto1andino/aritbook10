@@ -1,4 +1,4 @@
-# EspeMath
+# espe_math
 
 A new Flutter project.
 

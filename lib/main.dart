@@ -1,11 +1,11 @@
-import 'package:EspeMath/src/common/Themes/data_theme.dart';
-import 'package:EspeMath/src/core/Provider/main_provider.dart';
-import 'package:EspeMath/src/pages/login_page.dart';
-import 'package:EspeMath/src/widgets/TheneDetails/ProblemsTrivia/problemwidget.dart';
-import 'package:EspeMath/src/widgets/TheneDetails/questionswidget.dart';
+import 'package:espe_math/src/common/Themes/data_theme.dart';
+import 'package:espe_math/src/core/Provider/main_provider.dart';
+import 'package:espe_math/src/pages/login_page.dart';
+import 'package:espe_math/src/widgets/TheneDetails/ProblemsTrivia/problemwidget.dart';
+import 'package:espe_math/src/widgets/TheneDetails/questionswidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:media_cache_manager/media_cache_manager.dart';
 import 'package:provider/provider.dart';
 import 'src/pages/home_page.dart';
@@ -20,8 +20,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-   MediaCacheManager.instance.init().then((value) {
-     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
+  MediaCacheManager.instance.init().then((value) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
       (value) {
         runApp(
           MultiProvider(
@@ -34,7 +34,6 @@ void main() async {
       },
     );
   });
-
 }
 
 class MyApp extends StatefulWidget {
@@ -52,7 +51,7 @@ class _MyAppState extends State<MyApp> {
     final mainProviderSave = Provider.of<MainProvider>(context, listen: false);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'EspeMath',
+      title: 'espe_math',
       routes: {
         'detailsTheme': (_) => const ThemeDetailsScreen(),
         'questionWidget': (_) => const QuestionWidget(),
@@ -74,13 +73,13 @@ class _MyAppState extends State<MyApp> {
               default:
                 if (snapshot.hasError) {
                   return Center(
-                    child: Text("${snapshot.hasError.toString()}"),
+                    child: Text(snapshot.hasError.toString()),
                   );
                 }
             }
 
             return (snapshot.data != "")
-                ? const MyHomePage(title: 'EspeMath')
+                ? const MyHomePage(title: 'Espe Math')
                 : const LoginPage();
           }),
     );

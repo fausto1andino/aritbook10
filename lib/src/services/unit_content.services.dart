@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:EspeMath/src/models/UnitModel/unitquestion_model.dart';
-import 'package:EspeMath/src/models/UnitModel/unitsubject._model.dart';
+import 'package:espe_math/src/models/UnitModel/unitquestion_model.dart';
+import 'package:espe_math/src/models/UnitModel/unitsubject._model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:developer' as dev;
 import '../models/UnitModel/unit_model.dart';
@@ -58,11 +58,10 @@ class UnitContent {
               urlImageOrVideoQuestion: dataQuestions["urlImageOrVideoQuestion"],
               option: options);
           unitQuestions.add(unitQuestion);
-          dev.log("Question");
+          dev.log(unitQuestions.first.toJson().toString());
         }
 
         for (var tema in units.docs) {
-
           var topicContent = db
               .collection('contenido')
               .doc(unidadID)
@@ -72,7 +71,6 @@ class UnitContent {
           var topicUnidad = await topicContent.get();
           List<Topic> topics = [];
           for (var topic in topicUnidad.docs) {
-
             var datos = topic.data();
             Topic topicData = Topic(
               idTopic: datos['idTopic'],
@@ -102,6 +100,7 @@ class UnitContent {
       }
       return totalBook;
     } catch (e) {
+      dev.log(e.toString());
       return Future.error(e);
     }
   }
